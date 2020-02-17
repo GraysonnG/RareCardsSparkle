@@ -10,7 +10,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
 import rarecardssparkle.extensions.*
 
-class RareCardParticleEffect(hb: Hitbox, color: Color?) : AbstractGameEffect() {
+class RareCardParticleEffect(val hb: Hitbox, color: Color?) : AbstractGameEffect() {
     private var x: Float = hb.x
     private var y: Float = hb.y
     private var oX: Float
@@ -28,13 +28,15 @@ class RareCardParticleEffect(hb: Hitbox, color: Color?) : AbstractGameEffect() {
         if (color != null) {
             this.color = color.cpy()
         }
-        oX = MathUtils.random(-halfWidth, halfWidth).scale() - img.packedWidth.div(2f) + hb.width.div(2f)
-        oY = MathUtils.random(-halfHeight, halfHeight).scale() - img.packedHeight.div(2f) + hb.height.div(2f)
+        oX = MathUtils.random(-halfWidth, halfWidth).scale() - img.packedWidth.div(2f)
+        oY = MathUtils.random(-halfHeight, halfHeight).scale() - img.packedHeight.div(2f)
         renderBehind = MathUtils.randomBoolean(0.2f.plus(scale - 0.5f))
         rotation = MathUtils.random(-5f, 5f)
     }
 
     override fun update() {
+        this.x = hb.cX
+        this.y = hb.cY
         applyInterpolationToAlpha()
         applyTime()
         applyDoneWhenComplete(duration < 0f)

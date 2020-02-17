@@ -23,7 +23,7 @@ class SparklePatches {
     class AbstractCardFields {
         companion object {
             @JvmField
-            var sparkleTimer: SpireField<SparkleTimer?> = SpireField { SparkleTimer(0.05f, 0.1f) }
+            var sparkleTimer: SpireField<SparkleTimer?> = SpireField { SparkleTimer(0.1f, 0.15f) }
 
             @JvmField
             var shouldSparkle: SpireField<Boolean> = SpireField { false }
