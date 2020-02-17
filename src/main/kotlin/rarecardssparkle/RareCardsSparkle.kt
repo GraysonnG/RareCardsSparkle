@@ -13,7 +13,7 @@ import kotlin.collections.ArrayList
 class RareCardsSparkle {
     companion object Statics {
         val defaultSparkleColor = Color(1f, 0.7f, 0.4f, 0f)
-        val sparkleRules: ArrayList<Predicate<AbstractCard>> = ArrayList()
+        val sparkleRules: ArrayList<SparkleRule> = ArrayList()
 
         private var name: String = ""
         private var version: String = ""
@@ -25,9 +25,9 @@ class RareCardsSparkle {
             log("Version", version)
 
             sparkleRules.add(
-                Predicate<AbstractCard> {
+                SparkleRule(Predicate<AbstractCard> {
                     it.rarity == AbstractCard.CardRarity.RARE
-                }
+                })
             )
         }
 

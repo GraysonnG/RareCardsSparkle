@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import rarecardssparkle.RareCardsSparkle
+import rarecardssparkle.SparkleRule
 import rarecardssparkle.SparkleTimer
 import rarecardssparkle.extensions.*
 import rarecardssparkle.vfx.RareCardParticleEffect
@@ -44,9 +45,12 @@ class SparklePatches {
                 var sparkleTimer = AbstractCardFields.sparkleTimer.get(card) as SparkleTimer
                 var sparkleColor = AbstractCardFields.sparkleColor.get(card)
 
-                for (sparkleRule: Predicate<AbstractCard> in RareCardsSparkle.sparkleRules) {
+                for (sparkleRule: SparkleRule in RareCardsSparkle.sparkleRules) {
                     if (sparkleRule.test(card)) {
                         shouldSparkle = true;
+                    }
+                    if (sparkleColor == null) {
+                        sparkleColor = sparkleRule.color.cpy()
                     }
                 }
 
