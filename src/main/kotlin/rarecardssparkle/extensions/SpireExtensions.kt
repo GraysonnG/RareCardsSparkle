@@ -12,28 +12,28 @@ fun Int.scale(): Float = this * Settings.scale
 fun Float.scale(): Float = this * Settings.scale
 
 fun AbstractGameEffect.applyTime() {
-    this.duration -= Gdx.graphics.deltaTime
+  this.duration -= Gdx.graphics.deltaTime
 }
 
 fun AbstractGameEffect.applyDoneWhenComplete(checkFor: Boolean) {
-    if (checkFor) {
-        isDone = true;
-    }
+  if (checkFor) {
+    isDone = true;
+  }
 }
 
 fun SpriteBatch.additiveMode() {
-    this.setBlendFunction(GL30.GL_SRC_ALPHA, GL30.GL_ONE)
+  this.setBlendFunction(GL30.GL_SRC_ALPHA, GL30.GL_ONE)
 }
 
 fun SpriteBatch.normalMode() {
-    this.setBlendFunction(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA)
+  this.setBlendFunction(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA)
 }
 
 fun Color.fixAlpha(): Color {
-    this.a = 1.0f;
-    return this
+  this.a = 1.0f;
+  return this
 }
 
 fun String.log() {
-    RareCardsSparkle.log(this)
+  RareCardsSparkle.log(this)
 }
