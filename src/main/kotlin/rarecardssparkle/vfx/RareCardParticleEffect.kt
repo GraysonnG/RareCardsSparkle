@@ -10,7 +10,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
 import rarecardssparkle.extensions.*
 
-class RareCardParticleEffect(val hb: Hitbox, color: Color?) : AbstractGameEffect() {
+class RareCardParticleEffect(private val hb: Hitbox, color: Color?) : AbstractGameEffect() {
     private var x: Float = hb.x
     private var y: Float = hb.y
     private var oX: Float
