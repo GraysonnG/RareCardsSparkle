@@ -26,7 +26,7 @@ class RareCardParticleEffect(hb: Hitbox, color: Color?) : AbstractGameEffect() {
         halfDuration = duration.div(2f)
         this.color = Color(1f, MathUtils.random(0.7f, 1f), 0.4f, 0f)
         if (color != null) {
-            this.color = color
+            this.color = color.cpy()
         }
         oX = MathUtils.random(-halfWidth, halfWidth).scale() - img.packedWidth.div(2f) + hb.width.div(2f)
         oY = MathUtils.random(-halfHeight, halfHeight).scale() - img.packedHeight.div(2f) + hb.height.div(2f)
