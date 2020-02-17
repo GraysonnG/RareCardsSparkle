@@ -1,13 +1,8 @@
 package rarecardssparkle
 
-import basemod.interfaces.PostInitializeSubscriber
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.math.MathUtils
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.cards.AbstractCard
-import com.megacrit.cardcrawl.helpers.CardLibrary
-import rarecardssparkle.extensions.log
-import rarecardssparkle.patches.SparklePatches
 import java.io.IOException
 import java.util.*
 import java.util.function.Predicate

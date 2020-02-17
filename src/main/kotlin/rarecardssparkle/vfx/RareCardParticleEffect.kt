@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.MathUtils
 import com.megacrit.cardcrawl.helpers.Hitbox
 import com.megacrit.cardcrawl.helpers.ImageMaster
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
-import rarecardssparkle.RareCardsSparkle
 import rarecardssparkle.extensions.*
 
 class RareCardParticleEffect(hb: Hitbox, color: Color?) : AbstractGameEffect() {
