@@ -27,9 +27,9 @@ class RareCardsSparkle {
             log("Version", version)
 
             sparkleRules.add(
-                    SparkleRule(Predicate<AbstractCard> {
-                        it.rarity == AbstractCard.CardRarity.RARE
-                    })
+                SparkleRule(Predicate<AbstractCard> {
+                    it.rarity == AbstractCard.CardRarity.RARE
+                })
             )
         }
 

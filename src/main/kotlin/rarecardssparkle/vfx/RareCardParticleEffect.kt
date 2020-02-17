@@ -55,16 +55,16 @@ class RareCardParticleEffect(private val hb: Hitbox, color: Color?) : AbstractGa
             color = this@RareCardParticleEffect.color
             additiveMode()
             draw(
-                    img,
-                    x + oX,
-                    y + oY,
-                    img.packedWidth.div(2f),
-                    img.packedHeight.div(2f),
-                    img.packedWidth.toFloat(),
-                    img.packedHeight.toFloat(),
-                    scale,
-                    scale.times(MathUtils.random(0.6f, 1.4f)),
-                    rotation
+                img,
+                x + oX,
+                y + oY,
+                img.packedWidth.div(2f),
+                img.packedHeight.div(2f),
+                img.packedWidth.toFloat(),
+                img.packedHeight.toFloat(),
+                scale,
+                scale.times(MathUtils.random(0.6f, 1.4f)),
+                rotation
             )
             color = Color.WHITE.fixAlpha()
             normalMode()

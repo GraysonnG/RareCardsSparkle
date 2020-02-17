@@ -114,7 +114,7 @@ class SparklePatches {
             @JvmStatic
             fun renderSparkles(screen: CardLibraryScreen, sb: SpriteBatch, cg: CardGroup) {
                 RareCardsSparkle.menuSparkles.stream()
-                        .forEach { it.render(sb) }
+                    .forEach { it.render(sb) }
             }
 
             class Locator() : SpireInsertLocator() {
@@ -133,7 +133,7 @@ class SparklePatches {
             @JvmStatic
             fun updateSparkles(screen: CardLibraryScreen) {
                 RareCardsSparkle.menuSparkles.stream()
-                        .forEach { it.update() }
+                    .forEach { it.update() }
                 RareCardsSparkle.menuSparkles.removeIf { it.isDone }
             }
         }
