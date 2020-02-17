@@ -1,9 +1,9 @@
-package rarecardssparkle
+package com.blanktheevil.rarecardssparkle
 
 import com.badlogic.gdx.graphics.Color
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.cards.AbstractCard
-import rarecardssparkle.vfx.RareCardParticleEffect
+import com.blanktheevil.rarecardssparkle.vfx.RareCardParticleEffect
 import java.io.IOException
 import java.util.*
 import java.util.function.Predicate

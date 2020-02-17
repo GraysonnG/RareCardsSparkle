@@ -1,14 +1,14 @@
-package rarecardssparkle.vfx
+package com.blanktheevil.rarecardssparkle.vfx
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
+import com.blanktheevil.rarecardssparkle.extensions.*
 import com.megacrit.cardcrawl.helpers.Hitbox
 import com.megacrit.cardcrawl.helpers.ImageMaster
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
-import rarecardssparkle.extensions.*
 
 class RareCardParticleEffect(private val hb: Hitbox, color: Color?) : AbstractGameEffect() {
   private var x: Float = hb.x

@@ -1,4 +1,4 @@
-package rarecardssparkle.extensions
+package com.blanktheevil.rarecardssparkle.extensions
 
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
@@ -6,7 +6,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL30
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import rarecardssparkle.RareCardsSparkle
+import com.blanktheevil.rarecardssparkle.RareCardsSparkle
 
 fun Int.scale(): Float = this * Settings.scale
 fun Float.scale(): Float = this * Settings.scale

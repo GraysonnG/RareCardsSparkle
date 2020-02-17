@@ -1,4 +1,4 @@
-package rarecardssparkle
+package com.blanktheevil.rarecardssparkle
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.MathUtils

@@ -1,7 +1,13 @@
-package rarecardssparkle.patches
+package com.blanktheevil.rarecardssparkle.patches
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.blanktheevil.rarecardssparkle.RareCardsSparkle
+import com.blanktheevil.rarecardssparkle.SparkleRule
+import com.blanktheevil.rarecardssparkle.SparkleTimer
+import com.blanktheevil.rarecardssparkle.extensions.fixAlpha
+import com.blanktheevil.rarecardssparkle.extensions.normalMode
+import com.blanktheevil.rarecardssparkle.vfx.RareCardParticleEffect
 import com.evacipated.cardcrawl.modthespire.lib.*
 import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.cards.CardGroup
@@ -9,12 +15,6 @@ import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.screens.compendium.CardLibraryScreen
 import javassist.CtBehavior
-import rarecardssparkle.RareCardsSparkle
-import rarecardssparkle.SparkleRule
-import rarecardssparkle.SparkleTimer
-import rarecardssparkle.extensions.*
-import rarecardssparkle.vfx.RareCardParticleEffect
-import java.util.function.Predicate
 
 @Suppress("unused")
 class SparklePatches {
@@ -40,9 +40,10 @@ class SparklePatches {
       @JvmStatic
       fun renderSparkles(card: AbstractCard, sb: SpriteBatch) {
         with(AbstractCardFields) {
-          val isOnScreenMethod = AbstractCard::class.java.getDeclaredMethod("isOnScreen")
-          isOnScreenMethod.isAccessible = true
-          val isOnScreen = isOnScreenMethod.invoke(card) as Boolean
+          val isOnScreen = AbstractCard::class.java.getDeclaredMethod("isOnScreen").apply {
+            isAccessible = true
+          }.invoke(card) as Boolean
+
           var shouldSparkle = shouldSparkle.get(card) as Boolean
           var sparkleTimer = sparkleTimer.get(card) as SparkleTimer
           var sparkleColor = sparkleColor.get(card)
