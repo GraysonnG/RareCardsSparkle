@@ -41,15 +41,14 @@ class SparklePatches {
                 isOnScreenMethod.isAccessible = true
                 val isOnScreen = isOnScreenMethod.invoke(card) as Boolean
                 var shouldSparkle = AbstractCardFields.shouldSparkle.get(card) as Boolean
+                var sparkleTimer = AbstractCardFields.sparkleTimer.get(card) as SparkleTimer
+                var sparkleColor = AbstractCardFields.sparkleColor.get(card)
 
                 for (sparkleRule: Predicate<AbstractCard> in RareCardsSparkle.sparkleRules) {
                     if (sparkleRule.test(card)) {
                         shouldSparkle = true;
                     }
                 }
-
-                var sparkleTimer = AbstractCardFields.sparkleTimer.get(card) as SparkleTimer
-                var sparkleColor = AbstractCardFields.sparkleColor.get(card)
 
                 if (shouldSparkle && !Settings.hideCards && !card.isFlipped && isOnScreen) {
                     sparkleTimer.applyTime()
