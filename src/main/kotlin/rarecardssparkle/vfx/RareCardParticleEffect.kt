@@ -49,22 +49,24 @@ class RareCardParticleEffect(hb: Hitbox, color: Color?) : AbstractGameEffect() {
     }
 
     override fun render(sb: SpriteBatch) {
-        sb.color = this.color
-        sb.additiveMode()
-        sb.draw(
-            img,
-            x + oX,
-            y + oY,
-            img.packedWidth.div(2f),
-            img.packedHeight.div(2f),
-            img.packedWidth.toFloat(),
-            img.packedHeight.toFloat(),
-            scale,
-            scale.times(MathUtils.random(0.6f, 1.4f)),
-            rotation
-        )
-        sb.color = Color.WHITE
-        sb.normalMode()
+        with(sb) {
+            color = this@RareCardParticleEffect.color
+            additiveMode()
+            draw(
+                    img,
+                    x + oX,
+                    y + oY,
+                    img.packedWidth.div(2f),
+                    img.packedHeight.div(2f),
+                    img.packedWidth.toFloat(),
+                    img.packedHeight.toFloat(),
+                    scale,
+                    scale.times(MathUtils.random(0.6f, 1.4f)),
+                    rotation
+            )
+            color = Color.WHITE.fixAlpha()
+            normalMode()
+        }
     }
 
     override fun dispose() {}

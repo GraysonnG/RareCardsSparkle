@@ -6,7 +6,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard
 import java.util.function.Predicate
 
 class SparkleRule(val color: Color, private val rule: Predicate<AbstractCard>) {
-    constructor(rule: Predicate<AbstractCard>): this(createDefaultColor(), rule)
+    constructor(rule: Predicate<AbstractCard>) : this(createDefaultColor(), rule)
 
     fun test(card: AbstractCard): Boolean {
         return rule.test(card)

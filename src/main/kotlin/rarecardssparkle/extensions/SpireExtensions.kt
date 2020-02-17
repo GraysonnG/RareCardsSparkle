@@ -14,6 +14,7 @@ fun Float.scale(): Float = this * Settings.scale
 fun AbstractGameEffect.applyTime() {
     this.duration -= Gdx.graphics.deltaTime
 }
+
 fun AbstractGameEffect.applyDoneWhenComplete(checkFor: Boolean) {
     if (checkFor) {
         isDone = true;
