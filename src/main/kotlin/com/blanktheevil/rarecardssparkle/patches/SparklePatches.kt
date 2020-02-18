@@ -24,7 +24,7 @@ class SparklePatches {
   class AbstractCardFields {
     companion object {
       @JvmField
-      var sparkleTimer: SpireField<SparkleTimer?> = SpireField { SparkleTimer(0.1f, 0.15f) }
+      var sparkleTimer: SpireField<SparkleTimer?> = SpireField { null }
 
       @JvmField
       var shouldSparkle: SpireField<Boolean> = SpireField { false }
@@ -46,7 +46,7 @@ class SparklePatches {
           }.invoke(card) as Boolean
 
           var shouldSparkle = shouldSparkle.get(card) as Boolean
-          val sparkleTimer = sparkleTimer.get(card) as SparkleTimer
+          var sparkleTimer = sparkleTimer.get(card)
           var sparkleColor = sparkleColor.get(card)
           var floaty = false
           var sparkleTexture: TextureAtlas.AtlasRegion? = null
@@ -56,10 +56,19 @@ class SparklePatches {
               shouldSparkle = true
               sparkleTexture = sparkleRule.texture
               floaty = sparkleRule.floaty
+
+              if (sparkleTimer == null) {
+                sparkleTimer = sparkleRule.timer
+              }
+
               if (sparkleColor == null) {
                 sparkleColor = sparkleRule.color.cpy()
               }
             }
+          }
+
+          if (sparkleTimer == null) {
+            sparkleTimer = SparkleTimer(0.1f, 0.15f)
           }
 
           if (shouldSparkle && !Settings.hideCards && !card.isFlipped && isOnScreen) {
@@ -90,7 +99,7 @@ class SparklePatches {
           }.invoke(card) as Boolean
 
           var shouldSparkle = shouldSparkle.get(card) as Boolean
-          val sparkleTimer = sparkleTimer.get(card) as SparkleTimer
+          var sparkleTimer = sparkleTimer.get(card)
           var sparkleColor = sparkleColor.get(card)
           var floaty = false
           var sparkleTexture: TextureAtlas.AtlasRegion? = null
@@ -100,10 +109,18 @@ class SparklePatches {
               shouldSparkle = true
               sparkleTexture = sparkleRule.texture
               floaty = sparkleRule.floaty
+
+              if (sparkleTimer == null) {
+                sparkleTimer = sparkleRule.timer
+              }
+
               if (sparkleColor == null) {
                 sparkleColor = sparkleRule.color.cpy()
               }
             }
+          }
+          if (sparkleTimer == null) {
+            sparkleTimer = SparkleTimer(0.1f, 0.15f)
           }
 
           if (shouldSparkle && isOnScreen) {
