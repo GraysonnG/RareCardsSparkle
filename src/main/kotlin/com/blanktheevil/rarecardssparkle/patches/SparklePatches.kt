@@ -74,7 +74,7 @@ class SparklePatches {
           if (shouldSparkle && !Settings.hideCards && !card.isFlipped && isOnScreen) {
             sparkleTimer.applyTime()
             if (sparkleTimer.shouldReset()) {
-              AbstractDungeon.topLevelEffects.add(CardParticleEffect(card.hb, sparkleColor, sparkleTexture, floaty))
+              AbstractDungeon.topLevelEffectsQueue.add(CardParticleEffect(card.hb, sparkleColor, sparkleTexture, floaty))
               sparkleTimer.reset()
             }
           }

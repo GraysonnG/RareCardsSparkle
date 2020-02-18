@@ -3,6 +3,7 @@ package com.blanktheevil.rarecardssparkle
 import basemod.BaseMod
 import basemod.interfaces.PostInitializeSubscriber
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.blanktheevil.rarecardssparkle.vfx.CardParticleEffect
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.cards.AbstractCard
@@ -15,6 +16,7 @@ import kotlin.collections.ArrayList
 @Suppress("unused")
 @SpireInitializer
 class RareCardsSparkle : PostInitializeSubscriber {
+
   companion object Statics {
     val defaultSparkleColor = Color(1f, 0.7f, 0.4f, 0f)
     val sparkleRules: ArrayList<SparkleRule> = ArrayList()
@@ -33,6 +35,19 @@ class RareCardsSparkle : PostInitializeSubscriber {
 
     fun log(vararg items: String) {
       println(items.asList().joinToString(" : ", "$name "))
+    }
+
+    @JvmStatic
+    fun addSparkleRule(color: Color, texture: TextureAtlas.AtlasRegion, hasRandomVelocity: Boolean, timer: SparkleTimer, conditionForSparkle: Predicate<AbstractCard>) {
+      sparkleRules.add(
+        SparkleRule(
+          color,
+          texture,
+          hasRandomVelocity,
+          timer,
+          conditionForSparkle
+        )
+      )
     }
 
     private fun loadProjectProperties() {
