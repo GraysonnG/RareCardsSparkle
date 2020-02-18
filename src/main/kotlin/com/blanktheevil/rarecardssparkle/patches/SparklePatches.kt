@@ -46,14 +46,14 @@ class SparklePatches {
           }.invoke(card) as Boolean
 
           var shouldSparkle = shouldSparkle.get(card) as Boolean
-          var sparkleTimer = sparkleTimer.get(card) as SparkleTimer
+          val sparkleTimer = sparkleTimer.get(card) as SparkleTimer
           var sparkleColor = sparkleColor.get(card)
           var floaty = false
           var sparkleTexture: TextureAtlas.AtlasRegion? = null
 
           for (sparkleRule: SparkleRule in RareCardsSparkle.sparkleRules) {
             if (sparkleRule.test(card)) {
-              shouldSparkle = true;
+              shouldSparkle = true
               sparkleTexture = sparkleRule.texture
               floaty = sparkleRule.floaty
               if (sparkleColor == null) {
@@ -90,14 +90,14 @@ class SparklePatches {
           }.invoke(card) as Boolean
 
           var shouldSparkle = shouldSparkle.get(card) as Boolean
-          var sparkleTimer = sparkleTimer.get(card) as SparkleTimer
+          val sparkleTimer = sparkleTimer.get(card) as SparkleTimer
           var sparkleColor = sparkleColor.get(card)
           var floaty = false
           var sparkleTexture: TextureAtlas.AtlasRegion? = null
 
           for (sparkleRule: SparkleRule in RareCardsSparkle.sparkleRules) {
             if (sparkleRule.test(card)) {
-              shouldSparkle = true;
+              shouldSparkle = true
               sparkleTexture = sparkleRule.texture
               floaty = sparkleRule.floaty
               if (sparkleColor == null) {
@@ -128,7 +128,7 @@ class SparklePatches {
           .forEach { it.render(sb) }
       }
 
-      class Locator() : SpireInsertLocator() {
+      class Locator : SpireInsertLocator() {
         override fun Locate(ctBehavior: CtBehavior?): IntArray {
           val matcher = Matcher.MethodCallMatcher(CardGroup::class.java, "renderTip")
           return LineFinder.findAllInOrder(ctBehavior, matcher)
