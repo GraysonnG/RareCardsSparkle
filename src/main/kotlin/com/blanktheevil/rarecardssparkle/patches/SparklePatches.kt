@@ -2,12 +2,13 @@ package com.blanktheevil.rarecardssparkle.patches
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.blanktheevil.rarecardssparkle.RareCardsSparkle
 import com.blanktheevil.rarecardssparkle.SparkleRule
 import com.blanktheevil.rarecardssparkle.SparkleTimer
 import com.blanktheevil.rarecardssparkle.extensions.fixAlpha
 import com.blanktheevil.rarecardssparkle.extensions.normalMode
-import com.blanktheevil.rarecardssparkle.vfx.RareCardParticleEffect
+import com.blanktheevil.rarecardssparkle.vfx.CardParticleEffect
 import com.evacipated.cardcrawl.modthespire.lib.*
 import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.cards.CardGroup
@@ -47,20 +48,24 @@ class SparklePatches {
           var shouldSparkle = shouldSparkle.get(card) as Boolean
           var sparkleTimer = sparkleTimer.get(card) as SparkleTimer
           var sparkleColor = sparkleColor.get(card)
+          var floaty = false
+          var sparkleTexture: TextureAtlas.AtlasRegion? = null
 
           for (sparkleRule: SparkleRule in RareCardsSparkle.sparkleRules) {
             if (sparkleRule.test(card)) {
               shouldSparkle = true;
-            }
-            if (sparkleColor == null) {
-              sparkleColor = sparkleRule.color.cpy()
+              sparkleTexture = sparkleRule.texture
+              floaty = sparkleRule.floaty
+              if (sparkleColor == null) {
+                sparkleColor = sparkleRule.color.cpy()
+              }
             }
           }
 
           if (shouldSparkle && !Settings.hideCards && !card.isFlipped && isOnScreen) {
             sparkleTimer.applyTime()
             if (sparkleTimer.shouldReset()) {
-              AbstractDungeon.topLevelEffects.add(RareCardParticleEffect(card.hb, sparkleColor))
+              AbstractDungeon.topLevelEffects.add(CardParticleEffect(card.hb, sparkleColor, sparkleTexture, floaty))
               sparkleTimer.reset()
             }
           }
@@ -80,26 +85,31 @@ class SparklePatches {
       @JvmStatic
       fun renderSparkles(card: AbstractCard, sb: SpriteBatch) {
         with(AbstractCardFields) {
-          val isOnScreenMethod = AbstractCard::class.java.getDeclaredMethod("isOnScreen")
-          isOnScreenMethod.isAccessible = true
-          val isOnScreen = isOnScreenMethod.invoke(card) as Boolean
+          val isOnScreen = AbstractCard::class.java.getDeclaredMethod("isOnScreen").apply {
+            isAccessible = true
+          }.invoke(card) as Boolean
+
           var shouldSparkle = shouldSparkle.get(card) as Boolean
           var sparkleTimer = sparkleTimer.get(card) as SparkleTimer
           var sparkleColor = sparkleColor.get(card)
+          var floaty = false
+          var sparkleTexture: TextureAtlas.AtlasRegion? = null
 
           for (sparkleRule: SparkleRule in RareCardsSparkle.sparkleRules) {
             if (sparkleRule.test(card)) {
               shouldSparkle = true;
-            }
-            if (sparkleColor == null) {
-              sparkleColor = sparkleRule.color.cpy()
+              sparkleTexture = sparkleRule.texture
+              floaty = sparkleRule.floaty
+              if (sparkleColor == null) {
+                sparkleColor = sparkleRule.color.cpy()
+              }
             }
           }
 
           if (shouldSparkle && isOnScreen) {
             sparkleTimer.applyTime()
             if (sparkleTimer.shouldReset()) {
-              RareCardsSparkle.menuSparkles.add(RareCardParticleEffect(card.hb, sparkleColor))
+              RareCardsSparkle.menuSparkles.add(CardParticleEffect(card.hb, sparkleColor, sparkleTexture, floaty))
               sparkleTimer.reset()
             }
           }
