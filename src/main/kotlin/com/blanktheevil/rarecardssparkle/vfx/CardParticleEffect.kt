@@ -52,7 +52,7 @@ class CardParticleEffect(private val hb: Hitbox, color: Color?, texture: AtlasRe
     applyInterpolationToAlpha()
     applyVelocity()
     applyTime()
-    applyDoneWhenComplete(duration < 0f)
+    setDoneWhenComplete(duration < 0f)
   }
 
   private fun applyInterpolationToAlpha() {

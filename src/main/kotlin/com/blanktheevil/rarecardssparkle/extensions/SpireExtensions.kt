@@ -1,12 +1,12 @@
 package com.blanktheevil.rarecardssparkle.extensions
 
-import com.megacrit.cardcrawl.core.Settings
-import com.megacrit.cardcrawl.vfx.AbstractGameEffect
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL30
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.blanktheevil.rarecardssparkle.RareCardsSparkle
+import com.megacrit.cardcrawl.core.Settings
+import com.megacrit.cardcrawl.vfx.AbstractGameEffect
 
 fun Int.scale(): Float = this * Settings.scale
 fun Float.scale(): Float = this * Settings.scale
@@ -15,7 +15,7 @@ fun AbstractGameEffect.applyTime() {
   this.duration -= Gdx.graphics.deltaTime
 }
 
-fun AbstractGameEffect.applyDoneWhenComplete(checkFor: Boolean) {
+fun AbstractGameEffect.setDoneWhenComplete(checkFor: Boolean) {
   if (checkFor) {
     isDone = true;
   }
