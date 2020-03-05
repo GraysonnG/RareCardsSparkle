@@ -21,6 +21,8 @@ import com.badlogic.gdx.graphics.Color;
 public class RareCardsSparkleHandler {
     public static void init() {
         RareCardsSparkle.addSparkleRule(
+            "modid:SomeUniqueID", // some unique string usually prepended with modid:
+            "Strikes", // this text is rendered in the mod settings menu
             new Color(0.6f, 0.7f, 1f, 0f), // this is the color of your sparkles.
             ImageMaster.GLOW_SPARK_2, // this is an AtlasRegion.
             true, // this is a boolean that allows the particles to have a random velocity upon initialization.
