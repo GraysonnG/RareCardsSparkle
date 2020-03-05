@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion
 import com.megacrit.cardcrawl.cards.AbstractCard
 import java.util.function.Predicate
 
-class SparkleRule(val color: Color, val texture: AtlasRegion?, val floaty: Boolean, val timer: SparkleTimer, private val rule: Predicate<AbstractCard>) {
+class SparkleRule(val id: String, val color: Color, val texture: AtlasRegion?, val floaty: Boolean, val timer: SparkleTimer, private val rule: Predicate<AbstractCard>) {
   fun test(card: AbstractCard): Boolean {
     return rule.test(card)
   }

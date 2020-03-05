@@ -23,7 +23,7 @@ class SparkleRenderHelper {
       var floaty = false
       var sparkleTexture: TextureAtlas.AtlasRegion? = null
 
-      RareCardsSparkle.sparkleRules.stream()
+      RareCardsSparkle.sparkleRules.values.stream()
         .filter {
           it.test(card)
         }.forEach {
