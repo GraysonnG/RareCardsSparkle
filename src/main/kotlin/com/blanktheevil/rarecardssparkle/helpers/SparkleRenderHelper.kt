@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.blanktheevil.rarecardssparkle.RareCardsSparkle
 import com.blanktheevil.rarecardssparkle.SparkleTimer
+import com.blanktheevil.rarecardssparkle.extensions.notNull
 import com.blanktheevil.rarecardssparkle.patches.RareCardsSparkleFields
 import com.blanktheevil.rarecardssparkle.vfx.CardParticleEffect
 import com.megacrit.cardcrawl.cards.AbstractCard
@@ -23,21 +24,23 @@ class SparkleRenderHelper {
       var floaty = false
       var sparkleTexture: TextureAtlas.AtlasRegion? = null
 
-      RareCardsSparkle.sparkleRules.forEach {
-        if (it.test(card)) {
+      RareCardsSparkle.sparkleRules.stream()
+        .filter {
+          it.test(card)
+        }
+        .forEach {
           shouldSparkle = true
           sparkleTexture = it.texture
           floaty = it.floaty
 
-          if (sparkleTimer == null) {
+          if (sparkleTimer.notNull()) {
             sparkleTimer = it.timer
           }
 
-          if (sparkleColor == null) {
+          if (sparkleColor.notNull()) {
             sparkleColor = it.color.cpy()
           }
         }
-      }
 
       sparkleTimer = sparkleTimer ?: SparkleTimer(0.1f, 0.15f)
 

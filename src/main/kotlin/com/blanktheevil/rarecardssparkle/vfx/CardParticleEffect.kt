@@ -32,8 +32,8 @@ class CardParticleEffect(private val hb: Hitbox, color: Color?, texture: AtlasRe
     oY = MathUtils.random(-halfHeight, halfHeight).scale() - img.packedHeight.div(2f)
     rotation = MathUtils.random(-5f, 5f)
 
-    if (color != null) {
-      this.color = color.cpy()
+    if (color.notNull()) {
+      this.color = color?.cpy()
     } else {
       this.color = Color(1f, 0.85f, 0.4f, 0f)
     }

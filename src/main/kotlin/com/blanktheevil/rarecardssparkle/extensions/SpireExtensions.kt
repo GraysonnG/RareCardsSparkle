@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.blanktheevil.rarecardssparkle.extensions
 
 import com.badlogic.gdx.Gdx
@@ -10,6 +12,7 @@ import com.megacrit.cardcrawl.vfx.AbstractGameEffect
 
 fun Int.scale(): Float = this * Settings.scale
 fun Float.scale(): Float = this * Settings.scale
+fun Any?.notNull(): Boolean = this != null
 
 fun AbstractGameEffect.applyTime() {
   this.duration -= Gdx.graphics.deltaTime
