@@ -3,6 +3,7 @@ package com.blanktheevil.rarecardssparkle
 import basemod.BaseMod
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.blanktheevil.rarecardssparkle.helpers.SparkleRuleHelper
 import com.blanktheevil.rarecardssparkle.vfx.CardParticleEffect
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.cards.AbstractCard
@@ -30,6 +31,7 @@ class RareCardsSparkle {
       loadProjectProperties()
       log("Version", version)
       BaseMod.subscribe(RareCardsSparkleInit())
+      SparkleRuleHelper.preCheckConfigFile()
     }
 
     fun log(vararg items: String) {

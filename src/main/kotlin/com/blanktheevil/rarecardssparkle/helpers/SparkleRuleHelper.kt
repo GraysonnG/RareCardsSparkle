@@ -18,10 +18,6 @@ class SparkleRuleHelper {
     fun saveRulesAsJson() {
       val file = File(dirPath)
 
-      if (!file.exists()) {
-        createFile(file)
-      }
-
       try {
         with(FileWriter(file)) {
           write(Gson().toJson(
@@ -39,9 +35,6 @@ class SparkleRuleHelper {
     fun loadRulesFromJson(): ArrayList<SparkleRuleDefinition> {
       val file = File(dirPath)
 
-      if (!file.exists()) {
-        createFile(file)
-      }
       try {
         val gson = Gson()
         val reader = FileReader(file)
@@ -55,9 +48,14 @@ class SparkleRuleHelper {
       return ArrayList()
     }
 
-    private fun createFile(file: File) {
-      file.parentFile.mkdirs()
-      file.createNewFile()
+    @JvmStatic
+    fun preCheckConfigFile() {
+      val file = File(dirPath)
+
+      if (!file.exists()) {
+        file.parentFile.mkdirs()
+        file.createNewFile()
+      }
     }
   }
 }
