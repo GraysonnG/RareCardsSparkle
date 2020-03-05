@@ -32,20 +32,18 @@ class SparkleRuleHelper {
       }
     }
 
-    fun loadRulesFromJson(): ArrayList<SparkleRuleDefinition> {
+    fun loadRulesFromJson(): List<SparkleRuleDefinition> {
       val file = File(dirPath)
 
       try {
-        val gson = Gson()
-        val reader = FileReader(file)
-        val data = gson.fromJson(reader, Array<SparkleRuleDefinition>::class.java) ?: emptyArray()
-
-        return ArrayList(data.asList())
+        with(FileReader(file)) {
+          return (Gson().fromJson(this, Array<SparkleRuleDefinition>::class.java) ?: emptyArray()).asList()
+        }
       } catch (e: Exception) {
         e.printStackTrace()
       }
 
-      return ArrayList()
+      return emptyList()
     }
 
     @JvmStatic

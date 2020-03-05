@@ -1,9 +1,6 @@
 package com.blanktheevil.rarecardssparkle
 
-import basemod.BaseMod
-import basemod.ModLabel
-import basemod.ModPanel
-import basemod.ModSlider
+import basemod.*
 import basemod.interfaces.PostInitializeSubscriber
 import com.badlogic.gdx.graphics.Color
 import com.blanktheevil.rarecardssparkle.helpers.SparkleRuleHelper
@@ -38,7 +35,7 @@ class RareCardsSparkleInit : PostInitializeSubscriber {
 
       RareCardsSparkle.sparkleRules.values.forEachIndexed { index: Int, sparkleRule: SparkleRule ->
         val previewCard = CardElement(
-          850f.plus((175).times(index)),
+          910f.plus((175).times(index)),
           750f,
           0.5f,
           findCardByRule(sparkleRule)
@@ -57,9 +54,20 @@ class RareCardsSparkleInit : PostInitializeSubscriber {
             SparkleRuleHelper.saveRulesAsJson()
           })
 
+        val checkbox = ModToggleButton(
+          815f,
+          683f.plus((-50).times(index)),
+          settingsMenu,
+          Consumer {
+            sparkleRule.enabled = it.enabled
+            SparkleRuleHelper.saveRulesAsJson()
+          })
+
         slider.setValue(sparkleRule.timer.tps.div(MAX_PPS))
+        checkbox.enabled = sparkleRule.enabled
 
         settingsMenu.addUIElement(slider)
+        settingsMenu.addUIElement(checkbox)
         settingsMenu.addUIElement(previewCard)
       }
 

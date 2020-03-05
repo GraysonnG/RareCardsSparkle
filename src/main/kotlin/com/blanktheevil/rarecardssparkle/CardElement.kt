@@ -29,7 +29,7 @@ class CardElement(private val x: Float, private val y: Float, private val scale:
     with(sb) {
       color = Color.WHITE.cpy()
       previewCard.render(this)
-      SparkleRenderHelper.addSparklesToCard(previewCard, this, true, true)
+      SparkleRenderHelper.addSparklesToCard(previewCard, this, true)
       RareCardsSparkle.menuSparkles.forEach { it.render(this) }
     }
   }

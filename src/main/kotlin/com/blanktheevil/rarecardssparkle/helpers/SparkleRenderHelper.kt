@@ -14,10 +14,6 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 class SparkleRenderHelper {
   companion object {
     fun addSparklesToCard(card: AbstractCard, sb: SpriteBatch, renderInLibrary: Boolean) {
-      addSparklesToCard(card, sb, renderInLibrary, false)
-    }
-
-    fun addSparklesToCard(card: AbstractCard, sb: SpriteBatch, renderInLibrary: Boolean, forceSparkle: Boolean) {
       val isOnScreen = AbstractCard::class.java.getDeclaredMethod("isOnScreen").apply {
         isAccessible = true
       }.invoke(card) as Boolean
@@ -28,9 +24,9 @@ class SparkleRenderHelper {
       var sparkleTexture: TextureAtlas.AtlasRegion? = null
 
       RareCardsSparkle.sparkleRules.values.stream()
-        .filter {
-          it.test(card)
-        }.forEach {
+        .filter { it.enabled }
+        .filter { it.test(card) }
+        .forEach {
           shouldSparkle = true
           sparkleTexture = it.texture
           floaty = it.floaty
@@ -51,7 +47,7 @@ class SparkleRenderHelper {
 
       with(sparkleTimer!!) {
         if (renderInLibrary) {
-          if ((shouldSparkle && isOnScreen) || forceSparkle) {
+          if (shouldSparkle && isOnScreen) {
             if (fireOnTime()) {
               RareCardsSparkle.menuSparkles.add(CardParticleEffect(card.hb, sparkleColor, sparkleTexture, floaty))
             }
