@@ -3,8 +3,10 @@ package com.blanktheevil.rarecardssparkle
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.MathUtils
 
-class SparkleTimer(private val min: Float, private val max: Float) {
-  private var time: Float = 0.0f;
+class SparkleTimer(var min: Float, var max: Float) {
+  private var time: Float = 0.0f
+
+  var tps: Float = 1f.div(min)
 
   fun fireOnTime(): Boolean {
     time -= Gdx.graphics.rawDeltaTime
@@ -15,5 +17,11 @@ class SparkleTimer(private val min: Float, private val max: Float) {
     }
 
     return shouldReset
+  }
+
+  fun setNewMinMax(min: Float, max: Float) {
+    this.min = min
+    this.max = max
+    this.tps = 1f.div(min)
   }
 }

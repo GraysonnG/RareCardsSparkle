@@ -22,7 +22,7 @@ class RareCardsSparkle {
 
     private var name: String = ""
     private var version: String = ""
-    private var modid: String = ""
+    var modid: String = ""
 
 
     @JvmStatic
@@ -37,9 +37,10 @@ class RareCardsSparkle {
     }
 
     @JvmStatic
-    fun addSparkleRule(id: String, color: Color, texture: TextureAtlas.AtlasRegion, hasRandomVelocity: Boolean, timer: SparkleTimer, conditionForSparkle: Predicate<AbstractCard>) {
+    fun addSparkleRule(id: String, name: String, color: Color, texture: TextureAtlas.AtlasRegion, hasRandomVelocity: Boolean, timer: SparkleTimer, conditionForSparkle: Predicate<AbstractCard>) {
       sparkleRules[id] = SparkleRule(
         id,
+        name,
         color,
         texture,
         hasRandomVelocity,
