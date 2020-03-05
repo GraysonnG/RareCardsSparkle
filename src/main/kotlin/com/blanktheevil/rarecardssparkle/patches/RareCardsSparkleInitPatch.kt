@@ -1,6 +1,5 @@
 package com.blanktheevil.rarecardssparkle.patches
 
-import com.blanktheevil.rarecardssparkle.RareCardsSparkle
 import com.blanktheevil.rarecardssparkle.RareCardsSparkleInit
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch
@@ -14,7 +13,6 @@ class RareCardsSparkleInitPatch {
     @JvmStatic
     fun init() {
       RareCardsSparkleInit.initialize()
-      RareCardsSparkle.log("done init")
     }
   }
 }

@@ -38,7 +38,7 @@ class SparkleRuleHelper {
       try {
         val gson = Gson()
         val reader = FileReader(file)
-        val data = gson.fromJson(reader, Array<SparkleRuleDefinition>::class.java)
+        val data = gson.fromJson(reader, Array<SparkleRuleDefinition>::class.java) ?: emptyArray()
 
         return ArrayList(data.asList())
       } catch (e: Exception) {
