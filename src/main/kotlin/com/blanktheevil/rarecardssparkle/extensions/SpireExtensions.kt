@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.blanktheevil.rarecardssparkle.extensions
 
 import com.badlogic.gdx.Gdx

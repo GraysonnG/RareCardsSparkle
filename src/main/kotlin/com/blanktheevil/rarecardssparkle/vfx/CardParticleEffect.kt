@@ -18,8 +18,8 @@ class CardParticleEffect(private val hb: Hitbox, color: Color?, texture: AtlasRe
   private var vY: Float = 0.0f
   private var oX: Float
   private var oY: Float
-  private var halfWidth: Float = hb.width.div(2.0f).times(1.125f)
-  private var halfHeight: Float = hb.height.div(2.0f).times(1.125f)
+  private var halfWidth: Float = hb.width.div(2.0f)
+  private var halfHeight: Float = hb.height.div(2.0f)
   private var halfDuration: Float
   private var img: AtlasRegion = ImageMaster.ROOM_SHINE_2
 
@@ -28,8 +28,8 @@ class CardParticleEffect(private val hb: Hitbox, color: Color?, texture: AtlasRe
     scale = MathUtils.random(0.4f, 0.6f).scale()
     halfDuration = duration.div(2f)
     this.color = Color(1f, MathUtils.random(0.7f, 1f), 0.4f, 0f)
-    oX = MathUtils.random(-halfWidth, halfWidth).scale() - img.packedWidth.div(2f)
-    oY = MathUtils.random(-halfHeight, halfHeight).scale() - img.packedHeight.div(2f)
+    oX = MathUtils.random(-halfWidth, halfWidth) - img.packedWidth.div(2f)
+    oY = MathUtils.random(-halfHeight, halfHeight) - img.packedHeight.div(2f)
     rotation = MathUtils.random(-5f, 5f)
 
     if (color != null) {
