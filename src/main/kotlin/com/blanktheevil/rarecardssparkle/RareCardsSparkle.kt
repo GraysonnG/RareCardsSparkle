@@ -22,9 +22,11 @@ class RareCardsSparkle {
     val menuSparkles: ArrayList<CardParticleEffect> = ArrayList()
     lateinit var config: Config
 
-    private var name: String = ""
+    var name: String = ""
     private var version: String = ""
     var modid: String = ""
+    var author: String = ""
+    var description: String = ""
 
     @JvmStatic
     fun initialize() {
@@ -62,7 +64,9 @@ class RareCardsSparkle {
           load(RareCardsSparkle::class.java.getResourceAsStream("/META-INF/rare-cards-sparkle.prop"))
           name = getProperty("name")
           version = getProperty("version")
-          modid = getProperty("modid")
+          modid = getProperty("id")
+          author = getProperty("author")
+          description = getProperty("description")
         }
       } catch (e: IOException) {
         e.printStackTrace()

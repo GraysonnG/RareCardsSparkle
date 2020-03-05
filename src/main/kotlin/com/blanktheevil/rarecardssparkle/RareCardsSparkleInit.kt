@@ -1,32 +1,41 @@
 package com.blanktheevil.rarecardssparkle
 
 import basemod.*
+import basemod.interfaces.EditStringsSubscriber
 import basemod.interfaces.PostInitializeSubscriber
 import com.badlogic.gdx.graphics.Color
 import com.blanktheevil.rarecardssparkle.models.Config
 import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.cards.colorless.Madness
+import com.megacrit.cardcrawl.core.CardCrawlGame
+import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.CardLibrary
 import com.megacrit.cardcrawl.helpers.FontHelper
 import com.megacrit.cardcrawl.helpers.ImageMaster
+import com.megacrit.cardcrawl.localization.UIStrings
 import java.util.function.Consumer
 import java.util.function.Predicate
 import kotlin.streams.toList
 
-class RareCardsSparkleInit : PostInitializeSubscriber {
+class RareCardsSparkleInit : PostInitializeSubscriber, EditStringsSubscriber {
   companion object {
     private const val MAX_PPS = 30f
+    private const val LABEL_TEXT = 0
+    private const val PER_SECOND_TEXT = 1
+    private const val ENABLED_IN_COMBAT_TEXT = 2
     private val settingsMenu = ModPanel()
 
+    private val ID = RareCardsSparkle.makeID("SettingsMenu")
+
     fun initialize() {
+      val uiStrings = CardCrawlGame.languagePack.getUIString(ID).TEXT
+
       RareCardsSparkle.config.sparkleRules.forEach {
         RareCardsSparkle.sparkleRules[it.id]?.applySparkleRuleDefinition(it)
       }
-      // load sparkle rule setting from json file
-      // override any existing rule settings with file settings
 
       val sliderLabel = ModLabel(
-        "Sparkles Per Second by Rule",
+        uiStrings[LABEL_TEXT],
         375f,
         750f,
         Color.WHITE.cpy(),
@@ -47,7 +56,7 @@ class RareCardsSparkleInit : PostInitializeSubscriber {
           500f,
           700f.plus((-50).times(index)),
           MAX_PPS,
-          "p/s",
+          uiStrings[PER_SECOND_TEXT],
           settingsMenu,
           Consumer {
             val newMin = 1f.div(it.value.times(MAX_PPS))
@@ -73,7 +82,7 @@ class RareCardsSparkleInit : PostInitializeSubscriber {
       }
 
       val enableInCombatButton = ModLabeledToggleButton(
-        "Enabled In Combat",
+        uiStrings[ENABLED_IN_COMBAT_TEXT],
         375f,
         700f.plus((-50).times(RareCardsSparkle.sparkleRules.size)).minus(25f),
         Color.WHITE.cpy(),
@@ -86,8 +95,6 @@ class RareCardsSparkleInit : PostInitializeSubscriber {
           Config.save(RareCardsSparkle.config)
         }
       )
-
-      // x = ESTIMATED_FRAME TIME / 0.15
 
       settingsMenu.addUIElement(sliderLabel)
       settingsMenu.addUIElement(enableInCombatButton)
@@ -136,5 +143,28 @@ class RareCardsSparkleInit : PostInitializeSubscriber {
         it.rarity == AbstractCard.CardRarity.SPECIAL
       }
     )
+  }
+
+  override fun receiveEditStrings() {
+    loadLocalizationFiles(Settings.GameLanguage.ENG)
+    if(Settings.language != Settings.GameLanguage.ENG) {
+      loadLocalizationFiles(Settings.language)
+    }
+  }
+
+  private fun loadLocalizationFiles(language: Settings.GameLanguage) {
+    BaseMod.loadCustomStringsFile(UIStrings::class.java,makeLocalizationPath(language, "settings"))
+  }
+
+  private fun makeLocalizationPath(language: Settings.GameLanguage, fileName: String): String {
+    var langFolder = "com/blanktheevil/rarecardssparkle/localization/"
+
+    @Suppress("LiftReturnOrAssignment")
+    when(language) {
+      Settings.GameLanguage.ENG -> langFolder += "eng"
+      else -> langFolder += "eng"
+    }
+
+    return "$langFolder/$fileName.json"
   }
 }

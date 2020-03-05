@@ -70,6 +70,7 @@
                 <excludes>
                     <exclude>ModTheSpire.json</exclude>
                     <exclude>META-INF/rare-cards-sparkle.prop</exclude>
+                    <exclude>com/blanktheevil/rarecardssparkle/localization/**/*</exclude>
                 </excludes>
             </resource>
             <resource>
@@ -78,6 +79,7 @@
                 <includes>
                     <include>ModTheSpire.json</include>
                     <include>META-INF/rare-cards-sparkle.prop</include>
+                    <include>com/blanktheevil/rarecardssparkle/localization/**/*</include>
                 </includes>
             </resource>
         </resources>

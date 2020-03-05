@@ -1,4 +1,5 @@
 id=${project.artifactId}
 name=${project.name}
 version=${project.version}
-modid=${project.artifactId}
+author=BlankTheEvil
+description=${project.description}
