@@ -23,7 +23,7 @@ class SparkleRuleHelper {
       }
 
       try {
-        with (FileWriter(file)) {
+        with(FileWriter(file)) {
           write(Gson().toJson(
             RareCardsSparkle.sparkleRules.values.stream()
               .map { it.asSparkleRuleDefinition() }
@@ -36,7 +36,7 @@ class SparkleRuleHelper {
       }
     }
 
-    fun loadRulesFromJson() : ArrayList<SparkleRuleDefinition> {
+    fun loadRulesFromJson(): ArrayList<SparkleRuleDefinition> {
       val file = File(dirPath)
 
       if (!file.exists()) {

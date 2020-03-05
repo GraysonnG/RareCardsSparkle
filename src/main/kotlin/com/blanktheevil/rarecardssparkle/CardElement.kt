@@ -7,7 +7,7 @@ import com.blanktheevil.rarecardssparkle.extensions.scale
 import com.blanktheevil.rarecardssparkle.helpers.SparkleRenderHelper
 import com.megacrit.cardcrawl.cards.AbstractCard
 
-class CardElement(private val x: Float,private val y: Float, private val scale: Float, private val previewCard: AbstractCard) : IUIElement {
+class CardElement(private val x: Float, private val y: Float, private val scale: Float, private val previewCard: AbstractCard) : IUIElement {
 
   init {
     previewCard.drawScale = scale
