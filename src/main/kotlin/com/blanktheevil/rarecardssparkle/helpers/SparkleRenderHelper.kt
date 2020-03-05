@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.blanktheevil.rarecardssparkle.RareCardsSparkle
 import com.blanktheevil.rarecardssparkle.SparkleTimer
-import com.blanktheevil.rarecardssparkle.extensions.notNull
 import com.blanktheevil.rarecardssparkle.patches.RareCardsSparkleFields
 import com.blanktheevil.rarecardssparkle.vfx.CardParticleEffect
 import com.megacrit.cardcrawl.cards.AbstractCard
@@ -27,38 +26,36 @@ class SparkleRenderHelper {
       RareCardsSparkle.sparkleRules.stream()
         .filter {
           it.test(card)
-        }
-        .forEach {
+        }.forEach {
           shouldSparkle = true
           sparkleTexture = it.texture
           floaty = it.floaty
 
-          if (sparkleTimer.notNull()) {
+          if (sparkleTimer == null) {
             sparkleTimer = it.timer
           }
 
-          if (sparkleColor.notNull()) {
+          if (sparkleColor == null) {
             sparkleColor = it.color.cpy()
           }
         }
 
-      sparkleTimer = sparkleTimer ?: SparkleTimer(0.1f, 0.15f)
+      if (sparkleTimer == null) {
+        sparkleTimer = SparkleTimer(0.1f, 0.15f)
+      }
+
 
       with(sparkleTimer!!) {
         if (renderInLibrary) {
           if (shouldSparkle && isOnScreen) {
-            applyTime()
-            if (shouldReset()) {
+            if (fireOnTime()) {
               RareCardsSparkle.menuSparkles.add(CardParticleEffect(card.hb, sparkleColor, sparkleTexture, floaty))
-              reset()
             }
           }
         } else {
           if (shouldSparkle && !Settings.hideCards && !card.isFlipped && isOnScreen) {
-            applyTime()
-            if (shouldReset()) {
+            if (fireOnTime()) {
               AbstractDungeon.topLevelEffectsQueue.add(CardParticleEffect(card.hb, sparkleColor, sparkleTexture, floaty))
-              reset()
             }
           }
         }
