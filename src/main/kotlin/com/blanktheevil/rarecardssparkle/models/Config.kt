@@ -1,4 +1,4 @@
-package com.blanktheevil.rarecardssparkle.helpers
+package com.blanktheevil.rarecardssparkle.models
 
 import com.blanktheevil.rarecardssparkle.RareCardsSparkle
 import com.blanktheevil.rarecardssparkle.SparkleRuleDefinition
@@ -10,21 +10,37 @@ import java.io.FileWriter
 import java.io.IOException
 import kotlin.streams.toList
 
-class SparkleRuleHelper {
+class Config(
+  var sparkleRules: List<SparkleRuleDefinition>,
+  var sparkleInCombat: Boolean) {
 
   companion object {
     val dirPath = ConfigUtils.CONFIG_DIR + File.separator + RareCardsSparkle.modid + File.separator + "config.json"
 
-    fun saveRulesAsJson() {
+    @JvmStatic
+    fun init(): Config {
       val file = File(dirPath)
+
+      if (!file.exists()) {
+        file.parentFile.mkdirs()
+        file.createNewFile()
+        return Config(emptyList(), true)
+      }
+
+      return load()
+    }
+
+    @JvmStatic
+    fun save(config: Config) {
+      val file = File(dirPath)
+
+      config.sparkleRules = RareCardsSparkle.sparkleRules.values.stream()
+        .map { it.asSparkleRuleDefinition() }
+        .toList()
 
       try {
         with(FileWriter(file)) {
-          write(Gson().toJson(
-            RareCardsSparkle.sparkleRules.values.stream()
-              .map { it.asSparkleRuleDefinition() }
-              .toList()
-          ))
+          write(Gson().toJson(config))
           close()
         }
       } catch (e: IOException) {
@@ -32,28 +48,19 @@ class SparkleRuleHelper {
       }
     }
 
-    fun loadRulesFromJson(): List<SparkleRuleDefinition> {
+    @JvmStatic
+    fun load(): Config {
       val file = File(dirPath)
 
       try {
         with(FileReader(file)) {
-          return (Gson().fromJson(this, Array<SparkleRuleDefinition>::class.java) ?: emptyArray()).asList()
+          return (Gson().fromJson(this, Config::class.java) ?: Config(emptyList(), true))
         }
       } catch (e: Exception) {
         e.printStackTrace()
       }
 
-      return emptyList()
-    }
-
-    @JvmStatic
-    fun preCheckConfigFile() {
-      val file = File(dirPath)
-
-      if (!file.exists()) {
-        file.parentFile.mkdirs()
-        file.createNewFile()
-      }
+      return Config(emptyList(), true)
     }
   }
 }

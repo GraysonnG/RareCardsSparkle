@@ -3,10 +3,11 @@ package com.blanktheevil.rarecardssparkle
 import basemod.*
 import basemod.interfaces.PostInitializeSubscriber
 import com.badlogic.gdx.graphics.Color
-import com.blanktheevil.rarecardssparkle.helpers.SparkleRuleHelper
+import com.blanktheevil.rarecardssparkle.models.Config
 import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.cards.colorless.Madness
 import com.megacrit.cardcrawl.helpers.CardLibrary
+import com.megacrit.cardcrawl.helpers.FontHelper
 import com.megacrit.cardcrawl.helpers.ImageMaster
 import java.util.function.Consumer
 import java.util.function.Predicate
@@ -18,7 +19,7 @@ class RareCardsSparkleInit : PostInitializeSubscriber {
     private val settingsMenu = ModPanel()
 
     fun initialize() {
-      SparkleRuleHelper.loadRulesFromJson().forEach {
+      RareCardsSparkle.config.sparkleRules.forEach {
         RareCardsSparkle.sparkleRules[it.id]?.applySparkleRuleDefinition(it)
       }
       // load sparkle rule setting from json file
@@ -51,7 +52,7 @@ class RareCardsSparkleInit : PostInitializeSubscriber {
           Consumer {
             val newMin = 1f.div(it.value.times(MAX_PPS))
             sparkleRule.timer.setNewMinMax(newMin, newMin.plus(0.025f))
-            SparkleRuleHelper.saveRulesAsJson()
+            Config.save(RareCardsSparkle.config)
           })
 
         val checkbox = ModToggleButton(
@@ -60,7 +61,7 @@ class RareCardsSparkleInit : PostInitializeSubscriber {
           settingsMenu,
           Consumer {
             sparkleRule.enabled = it.enabled
-            SparkleRuleHelper.saveRulesAsJson()
+            Config.save(RareCardsSparkle.config)
           })
 
         slider.setValue(sparkleRule.timer.tps.div(MAX_PPS))
@@ -71,12 +72,27 @@ class RareCardsSparkleInit : PostInitializeSubscriber {
         settingsMenu.addUIElement(previewCard)
       }
 
+      val enableInCombatButton = ModLabeledToggleButton(
+        "Enabled In Combat",
+        375f,
+        700f.plus((-50).times(RareCardsSparkle.sparkleRules.size)).minus(25f),
+        Color.WHITE.cpy(),
+        FontHelper.buttonLabelFont,
+        RareCardsSparkle.config.sparkleInCombat,
+        settingsMenu,
+        Consumer { /* do nothing */ },
+        Consumer {
+          RareCardsSparkle.config.sparkleInCombat = it.enabled
+          Config.save(RareCardsSparkle.config)
+        }
+      )
+
       // x = ESTIMATED_FRAME TIME / 0.15
 
       settingsMenu.addUIElement(sliderLabel)
+      settingsMenu.addUIElement(enableInCombatButton)
 
-
-      SparkleRuleHelper.saveRulesAsJson()
+      Config.save(RareCardsSparkle.config)
     }
 
     private fun findCardByRule(rule: SparkleRule): AbstractCard {
