@@ -8,7 +8,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
 import com.megacrit.cardcrawl.cards.CardGroup
 import com.megacrit.cardcrawl.screens.compendium.CardLibraryScreen
 
-@Suppress("unused")
+@Suppress("unused", "UNUSED_PARAMETER")
 @SpirePatch(clz = CardLibraryScreen::class, method = "renderGroup")
 class RareCardsSparkleLibraryRenderGroupPatch {
   companion object {

@@ -45,7 +45,7 @@ class RareCardsSparkle {
       sparkleRules[id] = SparkleRule(
         id,
         name,
-        color,
+        color.also { it.a = 0f },
         texture,
         hasRandomVelocity,
         timer,

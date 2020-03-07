@@ -29,15 +29,9 @@ class SparkleRenderHelper {
         .forEach {
           shouldSparkle = true
           sparkleTexture = it.texture
+          sparkleColor = it.color.cpy()
+          sparkleTimer = it.timer
           floaty = it.floaty
-
-          if (sparkleTimer == null) {
-            sparkleTimer = it.timer
-          }
-
-          if (sparkleColor == null) {
-            sparkleColor = it.color.cpy()
-          }
         }
 
       if (sparkleTimer == null) {

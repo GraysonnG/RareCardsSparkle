@@ -4,7 +4,7 @@ import basemod.*
 import basemod.interfaces.EditStringsSubscriber
 import basemod.interfaces.PostInitializeSubscriber
 import com.badlogic.gdx.graphics.Color
-import com.blanktheevil.rarecardssparkle.models.Config
+import com.blanktheevil.rarecardssparkle.extensions.doNothingConsumer
 import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.cards.colorless.Madness
 import com.megacrit.cardcrawl.core.CardCrawlGame
@@ -26,80 +26,88 @@ class RareCardsSparkleInit : PostInitializeSubscriber, EditStringsSubscriber {
     private val settingsMenu = ModPanel()
 
     private val ID = RareCardsSparkle.makeID("SettingsMenu")
+    private val uiStrings: Array<String> by lazy {
+      CardCrawlGame.languagePack.getUIString(ID).TEXT
+    }
 
     fun initialize() {
-      val uiStrings = CardCrawlGame.languagePack.getUIString(ID).TEXT
-
       RareCardsSparkle.config.sparkleRules.forEach {
         RareCardsSparkle.sparkleRules[it.id]?.applySparkleRuleDefinition(it)
       }
-
-      val sliderLabel = ModLabel(
-        uiStrings[LABEL_TEXT],
-        375f,
-        750f,
-        Color.WHITE.cpy(),
-        settingsMenu,
-        Consumer { /* do nothing */ }
-      )
-
-      RareCardsSparkle.sparkleRules.values.forEachIndexed { index: Int, sparkleRule: SparkleRule ->
-        val previewCard = CardElement(
-          910f.plus((175).times(index)),
+      with(settingsMenu) {
+        ModLabel(
+          uiStrings[LABEL_TEXT],
+          375f,
           750f,
-          0.5f,
-          findCardByRule(sparkleRule)
+          Color.WHITE.cpy(),
+          this,
+          doNothingConsumer()
         )
+          .also {
+            this.addUIElement(it)
+          }
 
-        val slider = ModSlider(
-          sparkleRule.name,
-          500f,
-          700f.plus((-50).times(index)),
-          MAX_PPS,
-          uiStrings[PER_SECOND_TEXT],
-          settingsMenu,
-          Consumer {
-            val newMin = 1f.div(it.value.times(MAX_PPS))
-            sparkleRule.timer.setNewMinMax(newMin, newMin.plus(0.025f))
-            Config.save(RareCardsSparkle.config)
-          })
+        RareCardsSparkle.sparkleRules.values.forEachIndexed { index: Int, sparkleRule: SparkleRule ->
+          CardElement(
+            910f.plus((175).times(index)),
+            750f,
+            0.5f,
+            findCardByRule(sparkleRule)
+          )
+            .also {
+              this.addUIElement(it)
+            }
 
-        val checkbox = ModToggleButton(
-          815f,
-          683f.plus((-50).times(index)),
-          settingsMenu,
-          Consumer {
-            sparkleRule.enabled = it.enabled
-            Config.save(RareCardsSparkle.config)
-          })
+          ModSlider(
+            sparkleRule.name,
+            500f,
+            700f.plus((-50).times(index)),
+            MAX_PPS,
+            uiStrings[PER_SECOND_TEXT],
+            settingsMenu,
+            Consumer {
+              val newMin = 1f.div(it.value.times(MAX_PPS))
+              sparkleRule.timer.setNewMinMax(newMin, newMin.plus(0.025f))
+              RareCardsSparkle.config.save()
+            })
+            .also {
+              it.setValue(sparkleRule.timer.tps.div(MAX_PPS))
+              this.addUIElement(it)
+            }
 
-        slider.setValue(sparkleRule.timer.tps.div(MAX_PPS))
-        checkbox.enabled = sparkleRule.enabled
-
-        settingsMenu.addUIElement(slider)
-        settingsMenu.addUIElement(checkbox)
-        settingsMenu.addUIElement(previewCard)
-      }
-
-      val enableInCombatButton = ModLabeledToggleButton(
-        uiStrings[ENABLED_IN_COMBAT_TEXT],
-        375f,
-        700f.plus((-50).times(RareCardsSparkle.sparkleRules.size)).minus(25f),
-        Color.WHITE.cpy(),
-        FontHelper.buttonLabelFont,
-        RareCardsSparkle.config.sparkleInCombat,
-        settingsMenu,
-        Consumer { /* do nothing */ },
-        Consumer {
-          RareCardsSparkle.config.sparkleInCombat = it.enabled
-          Config.save(RareCardsSparkle.config)
+          ModToggleButton(
+            815f,
+            683f.plus((-50).times(index)),
+            settingsMenu,
+            Consumer {
+              sparkleRule.enabled = it.enabled
+              RareCardsSparkle.config.save()
+            })
+            .also {
+              it.enabled = sparkleRule.enabled
+              this.addUIElement(it)
+            }
         }
-      )
 
-      settingsMenu.addUIElement(sliderLabel)
-      settingsMenu.addUIElement(enableInCombatButton)
-
-      Config.save(RareCardsSparkle.config)
+        ModLabeledToggleButton(
+          uiStrings[ENABLED_IN_COMBAT_TEXT],
+          375f,
+          700f.plus((-50).times(RareCardsSparkle.sparkleRules.size)).minus(25f),
+          Color.WHITE.cpy(),
+          FontHelper.buttonLabelFont,
+          RareCardsSparkle.config.sparkleInCombat,
+          settingsMenu,
+          doNothingConsumer(),
+          Consumer {
+            RareCardsSparkle.config.sparkleInCombat = it.enabled
+            RareCardsSparkle.config.save()
+          }
+        )
+          .also {
+            this.addUIElement(it)
+          }
+      }
+      RareCardsSparkle.config.save()
     }
 
     private fun findCardByRule(rule: SparkleRule): AbstractCard {
@@ -109,16 +117,16 @@ class RareCardsSparkleInit : PostInitializeSubscriber, EditStringsSubscriber {
         .toList()
 
       return if (filteredCards.isNotEmpty()) {
-        filteredCards[0]
+        filteredCards[0].makeCopy()
       } else {
-        Madness()
+        Madness().makeCopy()
       }
     }
   }
 
   override fun receivePostInitialize() {
     val badge = ImageMaster.loadImage("com/blanktheevil/rarecardssparkle/images/badge.png")
-    BaseMod.registerModBadge(badge, "Some Name", "Blank The Evil", "some description", settingsMenu)
+    BaseMod.registerModBadge(badge, RareCardsSparkle.name, RareCardsSparkle.author, RareCardsSparkle.description, settingsMenu)
 
     RareCardsSparkle.addSparkleRule(
       RareCardsSparkle.makeID("RareCardsGoldSparkle"),
@@ -147,20 +155,20 @@ class RareCardsSparkleInit : PostInitializeSubscriber, EditStringsSubscriber {
 
   override fun receiveEditStrings() {
     loadLocalizationFiles(Settings.GameLanguage.ENG)
-    if(Settings.language != Settings.GameLanguage.ENG) {
+    if (Settings.language != Settings.GameLanguage.ENG) {
       loadLocalizationFiles(Settings.language)
     }
   }
 
   private fun loadLocalizationFiles(language: Settings.GameLanguage) {
-    BaseMod.loadCustomStringsFile(UIStrings::class.java,makeLocalizationPath(language, "settings"))
+    BaseMod.loadCustomStringsFile(UIStrings::class.java, makeLocalizationPath(language, "settings"))
   }
 
   private fun makeLocalizationPath(language: Settings.GameLanguage, fileName: String): String {
     var langFolder = "com/blanktheevil/rarecardssparkle/localization/"
 
     @Suppress("LiftReturnOrAssignment")
-    when(language) {
+    when (language) {
       Settings.GameLanguage.ENG -> langFolder += "eng"
       else -> langFolder += "eng"
     }

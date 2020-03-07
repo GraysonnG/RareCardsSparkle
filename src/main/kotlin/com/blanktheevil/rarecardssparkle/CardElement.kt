@@ -10,17 +10,23 @@ import com.megacrit.cardcrawl.cards.AbstractCard
 class CardElement(private val x: Float, private val y: Float, private val scale: Float, private val previewCard: AbstractCard) : IUIElement {
 
   init {
-    previewCard.drawScale = scale
-    previewCard.targetDrawScale = scale
     previewCard.isSeen = true
   }
 
   override fun update() {
-    previewCard.current_x = x.plus(256f.times(scale).div(2f)).scale()
-    previewCard.current_y = y.minus(256f.times(scale).div(2f)).scale()
-    previewCard.target_x = x.plus(256f.times(scale).div(2f)).scale()
-    previewCard.target_y = y.minus(256f.times(scale).div(2f)).scale()
-    previewCard.update()
+    with(previewCard) {
+      drawScale = scale
+      targetDrawScale = scale
+      current_x = x.plus(256f.times(scale).div(2f)).scale()
+      current_y = y.minus(256f.times(scale).div(2f)).scale()
+      target_x = x.plus(256f.times(scale).div(2f)).scale()
+      target_y = y.minus(256f.times(scale).div(2f)).scale()
+      drawScale = scale
+      targetDrawScale = scale
+      isSeen = true
+      update()
+    }
+
     RareCardsSparkle.menuSparkles.forEach { it.update() }
     RareCardsSparkle.menuSparkles.removeIf { it.isDone }
   }

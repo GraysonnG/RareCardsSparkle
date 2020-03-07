@@ -13,7 +13,6 @@
         <steamFolder>D:\Steam\</steamFolder>
         <modsFolder>${steamFolder}steamapps/workshop/content/646570/</modsFolder>
         <stsPath>${steamFolder}steamapps\common\SlayTheSpire\</stsPath>
-        <versionNumber>0.0.1</versionNumber>
         <stsVersion>07-01-2019</stsVersion>
         <mtsVersion>3.11.0</mtsVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

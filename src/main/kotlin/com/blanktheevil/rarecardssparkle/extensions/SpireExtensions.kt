@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.blanktheevil.rarecardssparkle.RareCardsSparkle
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
+import java.util.function.Consumer
 
 fun Int.scale(): Float = this * Settings.scale
 fun Float.scale(): Float = this * Settings.scale
@@ -19,7 +20,7 @@ fun AbstractGameEffect.applyTime() {
 
 fun AbstractGameEffect.setDoneWhenComplete(checkFor: Boolean) {
   if (checkFor) {
-    isDone = true;
+    isDone = true
   }
 }
 
@@ -32,10 +33,12 @@ fun SpriteBatch.normalMode() {
 }
 
 fun Color.fixAlpha(): Color {
-  this.a = 1.0f;
+  this.a = 1.0f
   return this
 }
 
 fun String.log() {
   RareCardsSparkle.log(this)
 }
+
+fun <T> doNothingConsumer(): Consumer<T> = Consumer {  }

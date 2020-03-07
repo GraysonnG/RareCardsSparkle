@@ -2,11 +2,10 @@ package com.blanktheevil.rarecardssparkle.models
 
 import com.blanktheevil.rarecardssparkle.RareCardsSparkle
 import com.blanktheevil.rarecardssparkle.SparkleRuleDefinition
+import com.blanktheevil.rarecardssparkle.helpers.GZIPHelper
 import com.evacipated.cardcrawl.modthespire.lib.ConfigUtils
 import com.google.gson.Gson
 import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
 import java.io.IOException
 import kotlin.streams.toList
 
@@ -14,8 +13,22 @@ class Config(
   var sparkleRules: List<SparkleRuleDefinition>,
   var sparkleInCombat: Boolean) {
 
+  fun save() {
+    val file = File(dirPath)
+
+    RareCardsSparkle.config.sparkleRules = RareCardsSparkle.sparkleRules.values.stream()
+      .map { it.asSparkleRuleDefinition() }
+      .toList()
+
+    try {
+      GZIPHelper.saveDataToFile(file, Gson().toJson(this))
+    } catch (e: IOException) {
+      e.printStackTrace()
+    }
+  }
+
   companion object {
-    val dirPath = ConfigUtils.CONFIG_DIR + File.separator + RareCardsSparkle.modid + File.separator + "config.json"
+    val dirPath = ConfigUtils.CONFIG_DIR + File.separator + RareCardsSparkle.modid + File.separator + "config.gz"
 
     @JvmStatic
     fun init(): Config {
@@ -31,36 +44,15 @@ class Config(
     }
 
     @JvmStatic
-    fun save(config: Config) {
-      val file = File(dirPath)
-
-      config.sparkleRules = RareCardsSparkle.sparkleRules.values.stream()
-        .map { it.asSparkleRuleDefinition() }
-        .toList()
-
-      try {
-        with(FileWriter(file)) {
-          write(Gson().toJson(config))
-          close()
-        }
-      } catch (e: IOException) {
-        e.printStackTrace()
-      }
-    }
-
-    @JvmStatic
     fun load(): Config {
       val file = File(dirPath)
 
-      try {
-        with(FileReader(file)) {
-          return (Gson().fromJson(this, Config::class.java) ?: Config(emptyList(), true))
-        }
+      return try {
+        Gson().fromJson(GZIPHelper.loadDataFromFile(file), Config::class.java) ?: Config(emptyList(), true)
       } catch (e: Exception) {
         e.printStackTrace()
+        Config(emptyList(), true)
       }
-
-      return Config(emptyList(), true)
     }
   }
 }
