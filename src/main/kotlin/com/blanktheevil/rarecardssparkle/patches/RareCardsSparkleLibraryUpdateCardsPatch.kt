@@ -12,7 +12,7 @@ class RareCardsSparkleLibraryUpdateCardsPatch {
     @SpirePostfixPatch
     @JvmStatic
     fun updateSparkles(@Suppress("UNUSED_PARAMETER") screen: CardLibraryScreen) {
-      RareCardsSparkle.menuSparkles.stream()
+      RareCardsSparkle.menuSparkles.parallelStream()
         .forEach { it.update() }
       RareCardsSparkle.menuSparkles.removeIf { it.isDone }
     }
