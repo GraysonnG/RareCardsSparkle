@@ -8,14 +8,14 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
 import com.megacrit.cardcrawl.cards.CardGroup
 import com.megacrit.cardcrawl.screens.compendium.CardLibraryScreen
 
-@Suppress("unused")
+@Suppress("unused", "UNUSED_PARAMETER")
 @SpirePatch(clz = CardLibraryScreen::class, method = "renderGroup")
 class RareCardsSparkleLibraryRenderGroupPatch {
   companion object {
     @SpireInsertPatch(locator = RenderTipLocator::class)
     @JvmStatic
     fun renderSparkles(screen: CardLibraryScreen, sb: SpriteBatch, cg: CardGroup) {
-      RareCardsSparkle.menuSparkles.stream()
+      RareCardsSparkle.menuSparkles.parallelStream()
         .forEach { it.render(sb) }
     }
   }

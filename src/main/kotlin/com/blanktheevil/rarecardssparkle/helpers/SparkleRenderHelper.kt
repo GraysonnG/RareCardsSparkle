@@ -23,21 +23,15 @@ class SparkleRenderHelper {
       var floaty = false
       var sparkleTexture: TextureAtlas.AtlasRegion? = null
 
-      RareCardsSparkle.sparkleRules.stream()
-        .filter {
-          it.test(card)
-        }.forEach {
+      RareCardsSparkle.sparkleRules.values.stream()
+        .filter { it.enabled }
+        .filter { it.test(card) }
+        .forEach {
           shouldSparkle = true
           sparkleTexture = it.texture
+          sparkleColor = it.color.cpy()
+          sparkleTimer = it.timer
           floaty = it.floaty
-
-          if (sparkleTimer == null) {
-            sparkleTimer = it.timer
-          }
-
-          if (sparkleColor == null) {
-            sparkleColor = it.color.cpy()
-          }
         }
 
       if (sparkleTimer == null) {
