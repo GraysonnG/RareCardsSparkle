@@ -8,12 +8,10 @@ import com.megacrit.cardcrawl.cards.AbstractCard
 
 @Suppress("unused")
 @SpirePatch(clz = AbstractCard::class, method = "renderInLibrary")
-class RareCardsSparkleLibraryRenderPatch {
-  companion object {
-    @SpirePostfixPatch
-    @JvmStatic
-    fun renderSparkles(card: AbstractCard, sb: SpriteBatch) {
-      SparkleRenderHelper.addSparklesToCard(card, true)
-    }
+object RareCardsSparkleLibraryRenderPatch {
+  @SpirePostfixPatch
+  @JvmStatic
+  fun renderSparkles(card: AbstractCard, sb: SpriteBatch) {
+    SparkleRenderHelper.addSparklesToCard(card, true)
   }
 }

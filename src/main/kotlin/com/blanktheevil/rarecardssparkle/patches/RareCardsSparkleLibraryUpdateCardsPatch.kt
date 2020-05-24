@@ -7,14 +7,12 @@ import com.megacrit.cardcrawl.screens.compendium.CardLibraryScreen
 
 @Suppress("unused")
 @SpirePatch(clz = CardLibraryScreen::class, method = "updateCards")
-class RareCardsSparkleLibraryUpdateCardsPatch {
-  companion object {
-    @SpirePostfixPatch
-    @JvmStatic
-    fun updateSparkles(@Suppress("UNUSED_PARAMETER") screen: CardLibraryScreen) {
-      RareCardsSparkle.menuSparkles.parallelStream()
-        .forEach { it.update() }
-      RareCardsSparkle.menuSparkles.removeIf { it.isDone }
-    }
+object RareCardsSparkleLibraryUpdateCardsPatch {
+  @SpirePostfixPatch
+  @JvmStatic
+  fun updateSparkles(@Suppress("UNUSED_PARAMETER") screen: CardLibraryScreen) {
+    RareCardsSparkle.menuSparkles.parallelStream()
+      .forEach { it.update() }
+    RareCardsSparkle.menuSparkles.removeIf { it.isDone }
   }
 }

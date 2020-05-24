@@ -7,12 +7,10 @@ import com.megacrit.cardcrawl.core.CardCrawlGame
 
 @Suppress("unused")
 @SpirePatch(clz = CardCrawlGame::class, method = "create")
-class RareCardsSparkleInitPatch {
-  companion object {
-    @SpirePostfixPatch
-    @JvmStatic
-    fun init() {
-      RareCardsSparkleInit.initialize()
-    }
+object RareCardsSparkleInitPatch {
+  @SpirePostfixPatch
+  @JvmStatic
+  fun init() {
+    RareCardsSparkleInit.initialize()
   }
 }
