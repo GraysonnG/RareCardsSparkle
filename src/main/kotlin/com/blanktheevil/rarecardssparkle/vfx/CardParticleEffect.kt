@@ -7,19 +7,19 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
 import com.blanktheevil.rarecardssparkle.extensions.*
-import com.megacrit.cardcrawl.helpers.Hitbox
+import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.helpers.ImageMaster
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
 
-class CardParticleEffect(private val hb: Hitbox, color: Color?, texture: AtlasRegion?, floaty: Boolean) : AbstractGameEffect() {
-  private var x: Float = hb.x
-  private var y: Float = hb.y
+class CardParticleEffect(val card: AbstractCard, color: Color?, texture: AtlasRegion?, floaty: Boolean) : AbstractGameEffect() {
+  private var x: Float = card.hb.x
+  private var y: Float = card.hb.y
   private var vX: Float = 0.0f
   private var vY: Float = 0.0f
   private var oX: Float
   private var oY: Float
-  private var halfWidth: Float = hb.width.div(2.0f)
-  private var halfHeight: Float = hb.height.div(2.0f)
+  private var halfWidth: Float = card.hb.width.div(2.0f)
+  private var halfHeight: Float = card.hb.height.div(2.0f)
   private var halfDuration: Float
   private var img: AtlasRegion = ImageMaster.ROOM_SHINE_2
 
@@ -46,8 +46,8 @@ class CardParticleEffect(private val hb: Hitbox, color: Color?, texture: AtlasRe
   }
 
   override fun update() {
-    this.x = hb.cX
-    this.y = hb.cY
+    this.x = card.hb.cX
+    this.y = card.hb.cY
     applyInterpolationToAlpha()
     applyVelocity()
     applyTime()

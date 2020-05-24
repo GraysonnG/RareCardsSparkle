@@ -15,7 +15,7 @@ class RareCardsSparkleLibraryRenderGroupPatch {
     @SpireInsertPatch(locator = RenderTipLocator::class)
     @JvmStatic
     fun renderSparkles(screen: CardLibraryScreen, sb: SpriteBatch, cg: CardGroup) {
-      RareCardsSparkle.menuSparkles.parallelStream()
+      RareCardsSparkle.menuSparkles.asSequence()
         .forEach { it.render(sb) }
     }
   }

@@ -13,7 +13,7 @@ class RareCardsSparkleLibraryRenderPatch {
     @SpirePostfixPatch
     @JvmStatic
     fun renderSparkles(card: AbstractCard, sb: SpriteBatch) {
-      SparkleRenderHelper.addSparklesToCard(card, sb, true)
+      SparkleRenderHelper.addSparklesToCard(card, true)
     }
   }
 }
