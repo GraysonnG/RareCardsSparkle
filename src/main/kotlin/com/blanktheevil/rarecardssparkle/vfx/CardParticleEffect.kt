@@ -27,7 +27,6 @@ class CardParticleEffect(private val hb: Hitbox, color: Color?, texture: AtlasRe
     duration = MathUtils.random(0.9f, 1.2f)
     scale = MathUtils.random(0.4f, 0.6f).scale()
     halfDuration = duration.div(2f)
-    this.color = Color(1f, MathUtils.random(0.7f, 1f), 0.4f, 0f)
     oX = MathUtils.random(-halfWidth, halfWidth) - img.packedWidth.div(2f)
     oY = MathUtils.random(-halfHeight, halfHeight) - img.packedHeight.div(2f)
     rotation = MathUtils.random(-5f, 5f)
@@ -56,10 +55,12 @@ class CardParticleEffect(private val hb: Hitbox, color: Color?, texture: AtlasRe
   }
 
   private fun applyInterpolationToAlpha() {
-    if (duration > halfDuration) {
-      color.a = Interpolation.pow3In.apply(0.6f, 0f, duration.minus(halfDuration).div(halfDuration))
-    } else {
-      color.a = Interpolation.pow3In.apply(0f, 0.6f, duration.div(halfDuration))
+    with(Interpolation.pow3In) {
+      color.a = if (duration > halfDuration) {
+        apply(0.6f, 0f, duration.minus(halfDuration).div(halfDuration))
+      } else {
+        apply(0f, 0.6f, duration.div(halfDuration))
+      }
     }
   }
 

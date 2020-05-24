@@ -1,0 +1,9 @@
+{
+  "${artifactId}:SettingsMenu": {
+    "TEXT": [
+      "Sparkles Per Second by Rule",
+      "p/s",
+      "Enabled In Combat"
+    ]
+  }
+}
