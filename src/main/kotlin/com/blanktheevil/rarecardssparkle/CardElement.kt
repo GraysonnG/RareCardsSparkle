@@ -27,7 +27,9 @@ class CardElement(private val x: Float, private val y: Float, private val scale:
       update()
     }
     SparkleRenderHelper.addSparklesToCard(previewCard, true)
-    RareCardsSparkle.menuSparkles.parallelStream().forEach { it.update() }
+    RareCardsSparkle.menuSparkles.asSequence()
+      .filter { it.card == previewCard }
+      .forEach { it.update() }
     RareCardsSparkle.menuSparkles.removeIf { it.isDone }
   }
 
@@ -36,7 +38,9 @@ class CardElement(private val x: Float, private val y: Float, private val scale:
       color = Color.WHITE.cpy()
       previewCard.render(this)
 
-      RareCardsSparkle.menuSparkles.parallelStream().forEach { it.render(this) }
+      RareCardsSparkle.menuSparkles.asSequence()
+        .filter { it.card == previewCard }
+        .forEach { it.render(this) }
     }
   }
 

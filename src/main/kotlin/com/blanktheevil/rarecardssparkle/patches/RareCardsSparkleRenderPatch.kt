@@ -19,11 +19,9 @@ object RareCardsSparkleRenderPatch {
   fun renderSparkles(card: AbstractCard, sb: SpriteBatch) {
     if (AbstractDungeon.getCurrMapNode() != null && AbstractDungeon.getCurrRoom() != null && AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT && !RareCardsSparkle.config.sparkleInCombat) return
 
-    RareCardsSparkle.menuSparkles.asSequence().filter {
-      it.card == card
-    }.forEach {
-      it.render(sb)
-    }
+    RareCardsSparkle.menuSparkles.asSequence()
+      .filter { it.card == card }
+      .forEach { it.render(sb) }
 
     with(sb) {
       color = Color.WHITE.fixAlpha()
