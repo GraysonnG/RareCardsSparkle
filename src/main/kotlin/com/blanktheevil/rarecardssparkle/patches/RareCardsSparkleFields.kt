@@ -7,15 +7,13 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
 import com.megacrit.cardcrawl.cards.AbstractCard
 
 @SpirePatch(clz = AbstractCard::class, method = SpirePatch.CLASS)
-class RareCardsSparkleFields {
-  companion object {
-    @JvmField
-    var sparkleTimer: SpireField<SparkleTimer?> = SpireField { null }
+object RareCardsSparkleFields {
+  @JvmField
+  var sparkleTimer: SpireField<SparkleTimer?> = SpireField { null }
 
-    @JvmField
-    var shouldSparkle: SpireField<Boolean> = SpireField { false }
+  @JvmField
+  var shouldSparkle: SpireField<Boolean> = SpireField { false }
 
-    @JvmField
-    var sparkleColor: SpireField<Color?> = SpireField { null }
-  }
+  @JvmField
+  var sparkleColor: SpireField<Color?> = SpireField { null }
 }

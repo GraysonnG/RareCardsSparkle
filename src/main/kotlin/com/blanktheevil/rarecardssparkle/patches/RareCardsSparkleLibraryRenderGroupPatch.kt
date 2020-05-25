@@ -10,13 +10,11 @@ import com.megacrit.cardcrawl.screens.compendium.CardLibraryScreen
 
 @Suppress("unused", "UNUSED_PARAMETER")
 @SpirePatch(clz = CardLibraryScreen::class, method = "renderGroup")
-class RareCardsSparkleLibraryRenderGroupPatch {
-  companion object {
-    @SpireInsertPatch(locator = RenderTipLocator::class)
-    @JvmStatic
-    fun renderSparkles(screen: CardLibraryScreen, sb: SpriteBatch, cg: CardGroup) {
-      RareCardsSparkle.menuSparkles.parallelStream()
-        .forEach { it.render(sb) }
-    }
+object RareCardsSparkleLibraryRenderGroupPatch {
+  @SpireInsertPatch(locator = RenderTipLocator::class)
+  @JvmStatic
+  fun renderSparkles(screen: CardLibraryScreen, sb: SpriteBatch, cg: CardGroup) {
+    RareCardsSparkle.menuSparkles.asSequence()
+      .forEach { it.render(sb) }
   }
 }

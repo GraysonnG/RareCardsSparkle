@@ -1,6 +1,5 @@
 package com.blanktheevil.rarecardssparkle.helpers
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.blanktheevil.rarecardssparkle.RareCardsSparkle
 import com.blanktheevil.rarecardssparkle.SparkleTimer
@@ -13,7 +12,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 @Suppress("UNUSED_PARAMETER", "unused")
 class SparkleRenderHelper {
   companion object {
-    fun addSparklesToCard(card: AbstractCard, sb: SpriteBatch, renderInLibrary: Boolean) {
+    fun addSparklesToCard(card: AbstractCard, renderInLibrary: Boolean) {
       val isOnScreen = AbstractCard::class.java.getDeclaredMethod("isOnScreen").apply {
         isAccessible = true
       }.invoke(card) as Boolean
@@ -43,13 +42,13 @@ class SparkleRenderHelper {
         if (renderInLibrary) {
           if (shouldSparkle && isOnScreen) {
             if (fireOnTime()) {
-              RareCardsSparkle.menuSparkles.add(CardParticleEffect(card.hb, sparkleColor, sparkleTexture, floaty))
+              RareCardsSparkle.menuSparkles.add(CardParticleEffect(card, sparkleColor, sparkleTexture, floaty))
             }
           }
         } else {
           if (shouldSparkle && !Settings.hideCards && !card.isFlipped && isOnScreen) {
             if (fireOnTime()) {
-              AbstractDungeon.topLevelEffectsQueue.add(CardParticleEffect(card.hb, sparkleColor, sparkleTexture, floaty))
+              AbstractDungeon.topLevelEffectsQueue.add(CardParticleEffect(card, sparkleColor, sparkleTexture, floaty))
             }
           }
         }
