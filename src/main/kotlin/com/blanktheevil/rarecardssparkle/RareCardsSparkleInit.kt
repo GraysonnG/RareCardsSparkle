@@ -68,7 +68,6 @@ class RareCardsSparkleInit : PostInitializeSubscriber, EditStringsSubscriber {
             Consumer {
               val newMin = 1f.div(it.value.times(MAX_PPS))
               sparkleRule.timer.setNewMinMax(newMin, newMin.plus(0.025f))
-              RareCardsSparkle.log("$newMin")
               RareCardsSparkle.config.save()
             })
             .also {
