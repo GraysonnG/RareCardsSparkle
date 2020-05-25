@@ -81,8 +81,8 @@ class CardParticleEffect(val card: AbstractCard, color: Color?, texture: AtlasRe
         img.packedHeight.div(2f),
         img.packedWidth.toFloat(),
         img.packedHeight.toFloat(),
-        scale,
-        scale.times(MathUtils.random(0.6f, 1.4f)),
+        scale.times(card.drawScale),
+        scale.times(MathUtils.random(0.6f, 1.4f)).times(card.drawScale),
         rotation
       )
       color = Color.WHITE.fixAlpha()
