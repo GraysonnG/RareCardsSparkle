@@ -41,7 +41,7 @@ class SparkleRenderHelper {
 
       with(sparkleTimer!!) {
         if (renderInLibrary) {
-          if (shouldSparkle && isOnScreen) {
+          if (shouldSparkle && isOnScreen && !card.isFlipped) {
             if (fireOnTime()) {
               RareCardsSparkle.menuSparkles.add(CardParticleEffect(card.hb, sparkleColor, sparkleTexture, floaty))
             }
