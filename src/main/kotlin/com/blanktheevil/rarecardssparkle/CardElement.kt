@@ -7,7 +7,12 @@ import com.blanktheevil.rarecardssparkle.extensions.scale
 import com.blanktheevil.rarecardssparkle.helpers.SparkleRenderHelper
 import com.megacrit.cardcrawl.cards.AbstractCard
 
-class CardElement(private val x: Float, private val y: Float, private val scale: Float, private val previewCard: AbstractCard) : IUIElement {
+class CardElement(
+  private val xPos: Float,
+  private val yPos: Float,
+  private val scale: Float,
+  private val previewCard: AbstractCard
+) : IUIElement {
 
   init {
     previewCard.isSeen = true
@@ -17,10 +22,10 @@ class CardElement(private val x: Float, private val y: Float, private val scale:
     with(previewCard) {
       drawScale = scale
       targetDrawScale = scale
-      current_x = x.plus(256f.times(scale).div(2f)).scale()
-      current_y = y.minus(256f.times(scale).div(2f)).scale()
-      target_x = x.plus(256f.times(scale).div(2f)).scale()
-      target_y = y.minus(256f.times(scale).div(2f)).scale()
+      current_x = xPos.plus(256f.times(scale).div(2f)).scale()
+      current_y = yPos.minus(256f.times(scale).div(2f)).scale()
+      target_x = xPos.plus(256f.times(scale).div(2f)).scale()
+      target_y = yPos.minus(256f.times(scale).div(2f)).scale()
       drawScale = scale
       targetDrawScale = scale
       isSeen = true

@@ -116,10 +116,16 @@ class RareCardsSparkleInit : PostInitializeSubscriber, EditStringsSubscriber {
         .distinct()
         .toList()
 
-      return if (filteredCards.isNotEmpty()) {
-        filteredCards[0].makeCopy()
-      } else {
-        Madness().makeCopy()
+      return getUniqueCardFromList(filteredCards)
+    }
+
+    private fun getUniqueCardFromList(list: List<AbstractCard>, lastIndex: Int = 0): AbstractCard {
+      return try {
+        if (lastIndex < list.size) {
+          list[lastIndex].makeCopy()
+        } else Madness()
+      } catch (e: Exception) {
+        getUniqueCardFromList(list, lastIndex + 1)
       }
     }
   }
