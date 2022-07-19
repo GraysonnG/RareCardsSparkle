@@ -6,10 +6,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
+import com.blanktheevil.rarecardssparkle.RareCardsSparkle
 import com.blanktheevil.rarecardssparkle.extensions.*
+import com.evacipated.cardcrawl.modthespire.Loader
 import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.helpers.ImageMaster
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
+import java.time.Instant
+import java.util.*
 
 class CardParticleEffect(val card: AbstractCard, color: Color?, texture: AtlasRegion?, floaty: Boolean) : AbstractGameEffect() {
   private var x: Float = card.hb.x
@@ -22,6 +26,10 @@ class CardParticleEffect(val card: AbstractCard, color: Color?, texture: AtlasRe
   private var halfHeight: Float = card.hb.height.div(2.0f)
   private var halfDuration: Float
   private var img: AtlasRegion = ImageMaster.ROOM_SHINE_2
+
+  companion object {
+    var easterEggHue = 0f
+  }
 
   init {
     duration = MathUtils.random(0.9f, 1.2f)
@@ -36,6 +44,8 @@ class CardParticleEffect(val card: AbstractCard, color: Color?, texture: AtlasRe
     } else {
       this.color = Color(1f, 0.85f, 0.4f, 0f)
     }
+
+    doPrideEasterEgg()
 
     if (floaty) {
       vX = MathUtils.random(-5f, 5f).scale()
@@ -91,4 +101,17 @@ class CardParticleEffect(val card: AbstractCard, color: Color?, texture: AtlasRe
   }
 
   override fun dispose() {}
+
+  private fun doPrideEasterEgg() {
+    val isPrideMonth = Date.from(Instant.now()).month == 5 && RareCardsSparkle.config.allowEasterEggs
+    val isPrideModLoaded = Loader.isModLoaded("PrideMod")
+
+    if (isPrideMonth || isPrideModLoaded) {
+      color = colorFromHSL(
+        easterEggHue,
+        1f,
+        0.5f
+      )
+    }
+  }
 }

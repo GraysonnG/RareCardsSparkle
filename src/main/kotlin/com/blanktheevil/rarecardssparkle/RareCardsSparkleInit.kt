@@ -14,7 +14,6 @@ import com.megacrit.cardcrawl.helpers.FontHelper
 import com.megacrit.cardcrawl.helpers.ImageMaster
 import com.megacrit.cardcrawl.localization.UIStrings
 import java.util.function.Consumer
-import java.util.function.Predicate
 import kotlin.streams.toList
 
 class RareCardsSparkleInit : PostInitializeSubscriber, EditStringsSubscriber {
@@ -23,6 +22,7 @@ class RareCardsSparkleInit : PostInitializeSubscriber, EditStringsSubscriber {
     private const val LABEL_TEXT = 0
     private const val PER_SECOND_TEXT = 1
     private const val ENABLED_IN_COMBAT_TEXT = 2
+    private const val ALLOW_EASTER_EGGS = 3
     private val settingsMenu = ModPanel()
 
     private val ID = RareCardsSparkle.makeID("SettingsMenu")
@@ -106,6 +106,24 @@ class RareCardsSparkleInit : PostInitializeSubscriber, EditStringsSubscriber {
           .also {
             this.addUIElement(it)
           }
+
+        ModLabeledToggleButton(
+          uiStrings[ALLOW_EASTER_EGGS],
+          375f,
+          700f.plus((-50).times(RareCardsSparkle.sparkleRules.size)).minus(75f),
+          Color.WHITE.cpy(),
+          FontHelper.buttonLabelFont,
+          RareCardsSparkle.config.allowEasterEggs,
+          settingsMenu,
+          doNothingConsumer(),
+          Consumer {
+            RareCardsSparkle.config.allowEasterEggs = it.enabled
+            RareCardsSparkle.config.save()
+          }
+        )
+          .also {
+            this.addUIElement(it)
+          }
       }
       RareCardsSparkle.config.save()
     }
@@ -140,11 +158,10 @@ class RareCardsSparkleInit : PostInitializeSubscriber, EditStringsSubscriber {
       Color(1f, 0.85f, 0.4f, 0f),
       ImageMaster.ROOM_SHINE_2,
       false,
-      SparkleTimer(0.22f, 0.245f),
-      Predicate<AbstractCard> {
-        it.rarity == AbstractCard.CardRarity.RARE
-      }
-    )
+      SparkleTimer(0.22f, 0.245f)
+    ) {
+      it.rarity == AbstractCard.CardRarity.RARE
+    }
 
     RareCardsSparkle.addSparkleRule(
       RareCardsSparkle.makeID("SpecialCardsBlueSparkle"),
@@ -152,11 +169,10 @@ class RareCardsSparkleInit : PostInitializeSubscriber, EditStringsSubscriber {
       Color(0.6f, 0.7f, 1f, 0f),
       ImageMaster.GLOW_SPARK_2,
       true,
-      SparkleTimer(0.22f, 0.245f),
-      Predicate<AbstractCard> {
-        it.rarity == AbstractCard.CardRarity.SPECIAL
-      }
-    )
+      SparkleTimer(0.22f, 0.245f)
+    ) {
+      it.rarity == AbstractCard.CardRarity.SPECIAL
+    }
   }
 
   override fun receiveEditStrings() {

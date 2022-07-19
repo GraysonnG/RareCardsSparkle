@@ -42,3 +42,13 @@ fun String.log() {
 }
 
 fun <T> doNothingConsumer(): Consumer<T> = Consumer {  }
+
+fun colorFromHSL(hue: Float, sat: Float, light: Float): Color {
+  return java.awt.Color.getHSBColor(hue, sat, light).let {
+    Color(
+      it.red.div(255f),
+      it.green.div(255f),
+      it.blue.div(255f),
+      1f)
+  }
+}
