@@ -7,10 +7,10 @@
     <description>Makes rare cards sparkle.</description>
     <groupId>com.blanktheevil</groupId>
     <artifactId>rare-cards-sparkle</artifactId>
-    <version>2.3.0</version>
+    <version>2.2.0</version>
 
     <properties>
-        <steamFolder>E:\SteamLibrary\</steamFolder>
+        <steamFolder>D:\Steam\</steamFolder>
         <modsFolder>${steamFolder}steamapps/workshop/content/646570/</modsFolder>
         <stsPath>${steamFolder}steamapps\common\SlayTheSpire\</stsPath>
         <stsVersion>07-01-2019</stsVersion>
@@ -40,13 +40,6 @@
             <version>${mtsVersion}</version>
             <scope>system</scope>
             <systemPath>${modsFolder}1605060445/ModTheSpire.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.ali.mods</groupId>
-            <artifactId>LightsOut</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>E:/SteamLibrary/steamapps/common/SlayTheSpire/mods/LightsOut.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
@@ -185,10 +178,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
             </plugin>
         </plugins>
     </build>
