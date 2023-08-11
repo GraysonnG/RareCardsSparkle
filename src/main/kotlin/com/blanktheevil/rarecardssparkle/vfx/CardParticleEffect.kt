@@ -6,12 +6,22 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
+import com.blanktheevil.rarecardssparkle.LightsOutObject
+import com.blanktheevil.rarecardssparkle.RareCardsSparkle
 import com.blanktheevil.rarecardssparkle.extensions.*
+import com.evacipated.cardcrawl.modthespire.Loader
 import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.helpers.ImageMaster
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
+import java.time.Instant
+import java.util.*
 
-class CardParticleEffect(val card: AbstractCard, color: Color?, texture: AtlasRegion?, floaty: Boolean) : AbstractGameEffect() {
+class CardParticleEffect(
+  val card: AbstractCard,
+  color: Color?,
+  texture: AtlasRegion?,
+  floaty: Boolean
+) : AbstractGameEffect(), LightsOutObject {
   private var x: Float = card.hb.x
   private var y: Float = card.hb.y
   private var vX: Float = 0.0f
@@ -22,9 +32,15 @@ class CardParticleEffect(val card: AbstractCard, color: Color?, texture: AtlasRe
   private var halfHeight: Float = card.hb.height.div(2.0f)
   private var halfDuration: Float
   private var img: AtlasRegion = ImageMaster.ROOM_SHINE_2
+  private var int: Float = 0.0f
+
+  companion object {
+    var easterEggHue = 0f
+  }
 
   init {
-    duration = MathUtils.random(0.9f, 1.2f)
+    val maxLife = MathUtils.random(0.9f, 1.2f)
+    duration = maxLife
     scale = MathUtils.random(0.4f, 0.6f).scale()
     halfDuration = duration.div(2f)
     oX = MathUtils.random(-halfWidth, halfWidth) - img.packedWidth.div(2f)
@@ -36,6 +52,8 @@ class CardParticleEffect(val card: AbstractCard, color: Color?, texture: AtlasRe
     } else {
       this.color = Color(1f, 0.85f, 0.4f, 0f)
     }
+
+    doPrideEasterEgg()
 
     if (floaty) {
       vX = MathUtils.random(-5f, 5f).scale()
@@ -60,6 +78,16 @@ class CardParticleEffect(val card: AbstractCard, color: Color?, texture: AtlasRe
         apply(0.6f, 0f, duration.minus(halfDuration).div(halfDuration))
       } else {
         apply(0f, 0.6f, duration.div(halfDuration))
+      }
+    }
+  }
+
+  private fun Float.applyPow3In(min: Float, max: Float): Float {
+    return this * with(Interpolation.pow3In) {
+      if (duration > halfDuration) {
+        apply(max, min, duration.minus(halfDuration).div(halfDuration))
+      } else {
+        apply(min, max, duration.div(halfDuration))
       }
     }
   }
@@ -91,4 +119,30 @@ class CardParticleEffect(val card: AbstractCard, color: Color?, texture: AtlasRe
   }
 
   override fun dispose() {}
+
+  private fun doPrideEasterEgg() {
+    val isPrideMonth = Date.from(Instant.now()).month == 5 && RareCardsSparkle.config.allowEasterEggs
+    val isPrideModLoaded = Loader.isModLoaded("PrideMod")
+
+    if (isPrideMonth || isPrideModLoaded) {
+      color = colorFromHSL(
+        easterEggHue,
+        1f,
+        0.5f
+      )
+    }
+  }
+
+  override fun _lightsOutGetXYRI(): FloatArray {
+    return listOf(
+      oX + x + img.packedWidth.div(2f),
+      oY + y + img.packedHeight.div(2f),
+      100f.times(scale).applyPow3In(0f, 1f),
+      0.75f.applyPow3In(0f, 1f),
+    ).toFloatArray()
+  }
+
+  override fun _lightsOutGetColor(): Array<Color> {
+    return Array(1 ) { this.color.cpy().also { it.a = 1f } }
+  }
 }

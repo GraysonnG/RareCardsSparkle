@@ -4,3 +4,5 @@
 /test
 /target
 dependency-reduced-pom.xml
+RareCardsSparkle/content/*
+RareCardsSparkle/config.json
