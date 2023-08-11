@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
+import com.blanktheevil.rarecardssparkle.LightsOutObject
 import com.blanktheevil.rarecardssparkle.RareCardsSparkle
 import com.blanktheevil.rarecardssparkle.extensions.*
 import com.evacipated.cardcrawl.modthespire.Loader
@@ -15,7 +16,12 @@ import com.megacrit.cardcrawl.vfx.AbstractGameEffect
 import java.time.Instant
 import java.util.*
 
-class CardParticleEffect(val card: AbstractCard, color: Color?, texture: AtlasRegion?, floaty: Boolean) : AbstractGameEffect() {
+class CardParticleEffect(
+  val card: AbstractCard,
+  color: Color?,
+  texture: AtlasRegion?,
+  floaty: Boolean
+) : AbstractGameEffect(), LightsOutObject {
   private var x: Float = card.hb.x
   private var y: Float = card.hb.y
   private var vX: Float = 0.0f
@@ -32,7 +38,8 @@ class CardParticleEffect(val card: AbstractCard, color: Color?, texture: AtlasRe
   }
 
   init {
-    duration = MathUtils.random(0.9f, 1.2f)
+    val maxLife = MathUtils.random(0.9f, 1.2f)
+    duration = maxLife
     scale = MathUtils.random(0.4f, 0.6f).scale()
     halfDuration = duration.div(2f)
     oX = MathUtils.random(-halfWidth, halfWidth) - img.packedWidth.div(2f)
@@ -70,6 +77,16 @@ class CardParticleEffect(val card: AbstractCard, color: Color?, texture: AtlasRe
         apply(0.6f, 0f, duration.minus(halfDuration).div(halfDuration))
       } else {
         apply(0f, 0.6f, duration.div(halfDuration))
+      }
+    }
+  }
+
+  private fun Float.applyPow3In(min: Float, max: Float): Float {
+    return this * with(Interpolation.pow3In) {
+      if (duration > halfDuration) {
+        apply(max, min, duration.minus(halfDuration).div(halfDuration))
+      } else {
+        apply(min, max, duration.div(halfDuration))
       }
     }
   }
@@ -113,5 +130,18 @@ class CardParticleEffect(val card: AbstractCard, color: Color?, texture: AtlasRe
         0.5f
       )
     }
+  }
+
+  override fun _lightsOutGetXYRI(): FloatArray {
+    return listOf(
+      oX + x + img.packedWidth.div(2f),
+      oY + y + img.packedHeight.div(2f),
+      100f.times(scale).applyPow3In(0f, 1f),
+      0.75f.applyPow3In(0f, 1f),
+    ).toFloatArray()
+  }
+
+  override fun _lightsOutGetColor(): Array<Color> {
+    return Array(1 ) { this.color.cpy().also { it.a = 1f } }
   }
 }

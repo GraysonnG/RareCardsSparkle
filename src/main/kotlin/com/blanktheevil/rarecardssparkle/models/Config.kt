@@ -12,7 +12,8 @@ import kotlin.streams.toList
 class Config(
   var sparkleRules: List<SparkleRuleDefinition>,
   var sparkleInCombat: Boolean,
-  var allowEasterEggs: Boolean = true) {
+  var allowEasterEggs: Boolean = true
+) {
 
   fun save() {
     val file = File(dirPath)
@@ -38,7 +39,7 @@ class Config(
       if (!file.exists()) {
         file.parentFile.mkdirs()
         file.createNewFile()
-        return Config(emptyList(), sparkleInCombat = true, allowEasterEggs = true)
+        return Config(emptyList(), true)
       }
 
       return load()
@@ -49,10 +50,10 @@ class Config(
       val file = File(dirPath)
 
       return try {
-        Gson().fromJson(GZIPHelper.loadDataFromFile(file), Config::class.java) ?: Config(emptyList(), sparkleInCombat = true, allowEasterEggs = true)
+        Gson().fromJson(GZIPHelper.loadDataFromFile(file), Config::class.java) ?: Config(emptyList(), true)
       } catch (e: Exception) {
         e.printStackTrace()
-        Config(emptyList(), sparkleInCombat = true, allowEasterEggs = true)
+        Config(emptyList(), true)
       }
     }
   }

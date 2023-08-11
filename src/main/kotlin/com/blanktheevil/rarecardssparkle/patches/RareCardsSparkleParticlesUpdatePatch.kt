@@ -2,6 +2,7 @@ package com.blanktheevil.rarecardssparkle.patches
 
 import com.badlogic.gdx.Gdx
 import com.blanktheevil.rarecardssparkle.RareCardsSparkle
+import com.blanktheevil.rarecardssparkle.crossover.handleLightsOutCrossover
 import com.blanktheevil.rarecardssparkle.vfx.CardParticleEffect
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch
@@ -14,6 +15,7 @@ object RareCardsSparkleParticlesUpdatePatch {
   @JvmStatic
   fun updateSparkles(game: CardCrawlGame) {
     RareCardsSparkle.menuSparkles.asSequence()
+      .handleLightsOutCrossover()
       .forEach { it.update() }
     RareCardsSparkle.menuSparkles.removeIf { it.isDone }
 
